@@ -1,11 +1,12 @@
-# Studio Empire — v0.4
-Original isometric game-development studio simulator. No-build static website for Vercel.
+# Studio Empire v0.6
 
-## Play locally
-Run `python3 -m http.server 4173` and visit http://localhost:4173.
+Isometric game-development studio simulator.
 
-## Features
-Isometric office with staff and rooms, production and 180-point genre focus, three publisher deals, game sequels, patches, DLC, pricing, live market rivals, staffing, research, financial reports, office expansions, autosave and JSON backup.
+- New career menu with seven starting eras, custom/random company and founder names.
+- Four difficulty modes.
+- Research tree: 24 technologies, dependencies, era unlocks, platform/genre/topic gating.
+- Corporate rivals: 16 persistent simulated companies; acquire, operate, merge and sell.
+- Animated office with expanded props, lighting and staff behaviors.
+- Original game release, publisher, DLC, staff, finances and export/import systems preserved.
 
-## Saves
-Preserves the v0.3 browser localStorage key `studio-empire-reboot-v1`; save export/import in Studio management.
+Deploy as a static site with index.html at the root. No build command.
