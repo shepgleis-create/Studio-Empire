@@ -1,0 +1,18 @@
+/* Studio Empire / v0.5 Art Direction — original visuals, no external assets */
+:root{--bg:#101b29;--bg2:#13283b;--panel:#f6f2e9;--mint:#8ef0bd;--red:#ff8779}
+.masthead{background:linear-gradient(110deg,#111e2c 0%,#182e3e 65%,#1b3442 100%);border-bottom:1px solid #6c9d9d36;box-shadow:0 4px 26px #091b2770;isolation:isolate}
+.brand-name{letter-spacing:.035em}.logo{box-shadow:0 5px 0 #473446,0 0 20px #f9918170}
+.summary-cell strong{font-variant-numeric:tabular-nums}.time-controls button{background:#284857;border-color:#5e8896;box-shadow:inset 0 1px 0 #ffffff1a;transition:transform .18s,background .18s}.time-controls button:active,.scenebtn:active{transform:scale(.92)}
+#game-stage{background:radial-gradient(circle at 50% 40%,#527886 0,#2d5162 42%,#142b3e 100%)}
+.scene-top{top:16px}.studio-pill{border:1px solid #9fc7bb75;background:linear-gradient(130deg,#142f3bea,#253f49e8);border-radius:11px;box-shadow:0 6px 20px #122c40a8,inset 0 1px #ffffff25;backdrop-filter:blur(12px)}
+.mini-meta span{background:#132e3dcf;border:1px solid #80a8ae61;border-radius:9px;box-shadow:inset 0 1px #ffffff16}
+.scenebtn{background:#183a4cca;border-color:#89b8ae87;border-radius:11px;box-shadow:0 3px 12px #0b253958}
+.project-ribbon{background:linear-gradient(135deg,#102a39ee,#1e4351ed);border:1px solid #81b6b48c;border-radius:15px;box-shadow:0 12px 34px #10232da1,inset 0 1px #ffffff16;backdrop-filter:blur(10px)}
+.ribbon-label{color:#96ead4}.ribbon-label strong{font-size:14px}.progressbar{height:9px;background:#2d5360}.progressbar span{background:linear-gradient(90deg,#79e6c6,#b5f3b4,#f5c878)}
+.sidebar{background:#f3f0e7;border-left:1px solid #d5ded4}.primary-cta{background:linear-gradient(130deg,#f78474,#e86869);box-shadow:0 5px 0 #a94750,0 10px 16px #e3726859;border-radius:12px}.secondary-action{border-radius:12px;transition:transform .16s,border-color .16s}.secondary-action:hover{transform:translateX(-2px)}
+.insight{background:linear-gradient(125deg,#183743,#244955);border:1px solid #a2d3be44}
+.modal-backdrop{backdrop-filter:blur(12px)}.sheet{background:#f8f6f0;box-shadow:0 25px 90px #07121dbb;border:1px solid #fffbf64f}.sheet-head{background:#f1eee7}.sheet-body{scrollbar-color:#9cbdb8 transparent}
+.featurecard,.list-item,.statblock{border-color:#dde7df;box-shadow:0 2px 9px #28423e0a}.featurecard:hover{border-color:#83c8ad}.btn.primary{background:#e77669;border-color:#d05f58}.btn.dark{background:#204151;border-color:#204151}
+@media(max-width:760px){.masthead{height:66px}.scene-top{top:13px}.mobile-nav{background:linear-gradient(180deg,#172d3c,#142333);border-top:1px solid #7eb9ac60;box-shadow:0 -6px 24px #091d2ba0}.mobile-nav button{color:#c6dcde}.mobile-nav button>span{font-size:23px}.mobile-nav button.nav-main{background:linear-gradient(180deg,#fb8e7c,#e96f70);border-right:1px solid #ffa599;color:white}.mobile-nav button:not(.nav-main):active{background:#284657}.mobile-nav button small{font-size:8px;letter-spacing:.05em}.project-ribbon{bottom:13px;padding:12px 13px}.scene-top .studio-pill{padding:9px 11px}.mini-meta{margin-top:43px}.eventfeed{bottom:102px}}
+@media(max-width:355px){.mobile-nav button small{font-size:7px}.project-ribbon .ribbon-label strong{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.primary-cta,.secondary-action,.scenebtn,.time-controls button{transition:none}}
