@@ -1,0 +1,67 @@
+/* v0.8: live art (no baked employees), camera/rotation/immersive improvements */
+html,body{overscroll-behavior:none}
+#game-stage{touch-action:none;user-select:none;-webkit-user-select:none;isolation:isolate;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#324b59,#0b1827 80%);min-height:0}
+#scene{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;opacity:1!important;filter:none!important;image-rendering:auto}
+#office-poster{display:none!important}
+#preview-notice{display:none!important}
+#game-stage .left-actions{display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+#game-stage .scenebtn{width:40px;height:40px;border-radius:12px;font-size:21px}
+#game-stage #immersive-office{font-size:22px}
+#game-stage .studio-pill{max-width:72%;overflow:hidden;white-space:nowrap;flex-wrap:nowrap}
+.zoom-meter{position:absolute;left:13px;bottom:112px;color:#f0ffffd0;background:#0b2035c9;border:1px solid #80b0c04a;padding:7px 10px;border-radius:8px;font:700 10px system-ui;letter-spacing:.08em;pointer-events:none;z-index:10;transition:opacity .25s}
+.office-progress{border:1px solid #c5d9d7;background:#eaf6f2;border-radius:13px;padding:16px;margin:16px 0;color:#30474f}
+.office-progress-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px}.office-progress-caption span{color:#56787a}
+.office-progress-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:12px 0}.office-progress-steps span{background:#d7e3e0;border-radius:6px;padding:9px 3px;text-align:center;color:#697d80;font-size:10px;font-weight:800}.office-progress-steps .reached{background:#347c72;color:#fff}
+.office-progress p{font-size:11px;margin:5px 0!important}
+body.office-immersive .masthead,body.office-immersive .mobile-nav,body.office-immersive .sidebar{display:none!important}
+body.office-immersive .game-wrap{flex:1!important}
+body.office-immersive #app{height:100dvh!important;min-height:0!important}
+body.office-immersive #game-stage{height:100%!important;min-height:0!important;flex:1!important}
+body.office-immersive #immersive-office{background:#83e2c5!important;color:#173a37!important}
+body.office-immersive .project-ribbon{bottom:12px!important}
+body.office-immersive .scene-top{top:10px}
+@media(max-width:760px){
+ #app{height:100dvh;min-height:0}
+ .game-wrap{min-height:0;flex:1}
+ #game-stage .left-actions{top:67px!important;left:9px;gap:5px}
+ #game-stage .scenebtn{width:36px;height:36px;font-size:19px}
+ #game-stage .studio-pill{max-width:calc(100% - 98px);border-radius:10px;font-size:9px;white-space:nowrap;padding:7px 9px}
+ #game-stage .scene-top{top:10px;right:10px;left:10px}
+ #clock{top:72px;right:10px}
+ .zoom-meter{bottom:89px;left:10px;font-size:9px}
+ .project-ribbon{padding:9px 12px!important;max-width:none!important}
+ .mobile-nav{height:calc(64px + env(safe-area-inset-bottom));min-height:64px}
+ .mobile-nav button{touch-action:manipulation;min-width:15%;flex:1 0 15%}
+ .mobile-nav button>span{font-size:21px}
+ .mobile-nav button small{font-size:7.5px}
+}
+@media(max-width:760px) and (orientation:landscape){
+ .masthead{height:46px}.logo{transform:scale(.60)}.brand-name{font-size:12px}.time-controls button{height:26px}
+ .mobile-nav{height:47px!important;min-height:47px!important;padding-bottom:0!important}
+ .mobile-nav button{flex-direction:row;gap:5px}.mobile-nav button>span{font-size:17px}
+ #game-stage .left-actions{top:48px!important;display:flex;flex-direction:row}
+ #game-stage .scenebtn{width:32px;height:32px;font-size:16px}
+ #game-stage .scene-top .studio-pill{font-size:8px;padding:4px 8px;max-width:45%}
+ .time-controls>span{top:51px;font-size:9px;padding:5px}
+ .project-ribbon{width:min(280px,40%)!important;left:auto!important;right:7px;bottom:7px!important}
+ .zoom-meter{bottom:12px;left:7px}
+}
+@media(min-width:761px) and (max-height:560px){.masthead{height:52px}.sidebar{overflow:auto}.project-ribbon{bottom:8px}.left-actions{top:57px!important}}
+
+/* iPhone landscape CSS widths can exceed the 760px mobile breakpoint. */
+@media (orientation:landscape) and (max-height:500px) and (max-width:950px){
+ #app{min-height:0;height:100dvh;overflow:hidden}
+ .masthead{height:46px!important;min-height:46px;padding:0 12px}
+ .sidebar{display:none!important}
+ .game-wrap{flex:1!important;min-height:0!important}
+ .mobile-nav{display:flex!important;height:48px!important;min-height:48px!important;padding:0!important;overflow-x:hidden!important;background:#0d2432!important}
+ .mobile-nav button{flex:1 1 16.66%!important;min-width:0!important;flex-direction:row;gap:3px;padding:2px}
+ .mobile-nav button>span{font-size:17px}.mobile-nav button small{font-size:8px}
+ #game-stage .left-actions{top:50px!important;left:10px;flex-direction:row}
+ #game-stage .scenebtn{height:33px;width:33px;font-size:16px}
+ #game-stage .studio-pill{max-width:57%;padding:4px 9px;font-size:8px}
+ #game-stage .project-ribbon{right:9px!important;left:auto!important;bottom:8px!important;width:min(265px,40%)!important}
+ #game-stage .zoom-meter{bottom:8px!important}
+ .brand-name{font-size:12px!important}.logo{transform:scale(.7)!important}
+ .time-controls>span{top:51px!important;right:8px;font-size:9px!important}
+}
