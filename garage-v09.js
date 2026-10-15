@@ -16,7 +16,11 @@ const objects=[
 {id:'coffee',type:'coffee',x:6.55,y:4.8,w:.66,d:.58,layer:'actor',interact:'team'},
 {id:'workbench',type:'bench',x:.55,y:3.40,w:1.15,d:.7,layer:'actor',interact:'research'},
 {id:'plant',type:'plant',x:.65,y:5.46,w:.5,d:.5,layer:'actor',interact:'studio'},
-{id:'boxes',type:'boxes',x:6.55,y:5.35,w:.7,d:.6,layer:'actor',interact:'studio'}
+{id:'boxes',type:'boxes',x:6.55,y:5.35,w:.7,d:.6,layer:'actor',interact:'studio'},
+{id:'couch',type:'sofa',x:.80,y:.95,w:1.28,d:.54,layer:'actor',interact:'team'},
+{id:'arcade',type:'arcade',x:6.35,y:2.53,w:.62,d:.54,layer:'actor',interact:'studio'},
+{id:'floor_lamp',type:'lamp',x:.32,y:2.55,w:.33,d:.34,layer:'actor',interact:'studio'},
+{id:'equipment',type:'radio',x:6.10,y:3.63,w:.53,d:.45,layer:'actor',interact:'research'}
 ];
 const manifest={version:1,projection:{kind:'isometric',tile:[70,35],origin:[world.ox,world.oy]},eraSets:['1975-1989','1990-2009','2010+'],assets:objects.map(o=>({id:o.id,type:o.type,anchor:[o.x,o.y],collision:[o.x-.30,o.y-.26,o.w,o.d],drawLayer:o.layer,interaction:o.interact,tier:1,approxTextureBytes:0}))};
 let staticCache=null,cacheEra=-1;const movers=new Map();let lastTime=0;
@@ -92,7 +96,12 @@ function shelf(c,o,year){shadow(c,o.x+.4,o.y+.25,32,14);prism(c,o.x,o.y,.85,.46,
 function coffee(c,o){shadow(c,o.x+.25,o.y+.26,28,12);prism(c,o.x,o.y,.7,.63,53,'#9b7968','#5b524b','#4f4441');const p=iso(o.x+.39,o.y+.38,58);round(c,p.x-12,p.y-25,26,27,4,'#b0a28c','#594a43');disk(c,p.x,p.y-20,10,5,'#3b3634');round(c,p.x-6,p.y-33,12,6,2,'#e1d0b4');}
 function boxes(c,o){shadow(c,o.x,o.y,25,12);prism(c,o.x,o.y,.62,.53,34,'#b89160','#6e5140','#866143');let p=iso(o.x+.25,o.y+.32,39);line(c,p.x-8,p.y,p.x+12,p.y+10,'#d8be8766',3);prism(c,o.x+.15,o.y+.14,.33,.37,60,'#caac7a','#806348','#957857')}
 function plant(c,o){shadow(c,o.x,o.y,18,10);prism(c,o.x,o.y,.44,.48,30,'#a46a52','#78503f','#6a4137');const p=iso(o.x+.17,o.y+.18,50);for(let j=0;j<9;j++){let a=j*2.3;line(c,p.x,p.y+9,p.x+Math.cos(a)*24,p.y+Math.sin(a)*16-12,'#324a34',3);disk(c,p.x+Math.cos(a)*24,p.y+Math.sin(a)*16-12,11,5,['#3e7153','#5c9065','#6e9e72'][j%3])}}
-function drawObj(c,o,year){if(o.type==='desk')desk(c,o,year);else if(o.type==='bench')bench(c,o,year);else if(o.type==='shelf')shelf(c,o,year);else if(o.type==='coffee')coffee(c,o);else if(o.type==='boxes')boxes(c,o);else if(o.type==='plant')plant(c,o)}
+// Era-aware, individually positioned environmental props. Characters are never baked into the backdrop.
+function sofa(c,o){shadow(c,o.x+.55,o.y+.3,70,19,.26);const seat=prism(c,o.x,o.y,1.35,.6,24,'#a35d47','#663e38','#74473a');const back=prism(c,o.x,o.y,.18,.6,66,'#b36c52','#73463b','#885040');for(let j=0;j<3;j++){let q=iso(o.x+.4+j*.33,o.y+.24,32);round(c,q.x-13,q.y-12,26,22,5,j%2?'#a95f4d':'#bf7559','#e6a17b',1)}let q=iso(o.x+.38,o.y+.12,39);round(c,q.x-10,q.y-12,20,18,4,'#e5bd78');}
+function arcade(c,o,year){shadow(c,o.x+.28,o.y+.28,30,15);prism(c,o.x,o.y,.65,.55,115,year>=1995?'#364457':'#a85f48','#323641','#252d38');let q=iso(o.x+.54,o.y+.18,91);c.save();c.translate(q.x,q.y);c.rotate(-.15);round(c,-19,-30,40,37,3,'#101e29','#f5ae78',3);round(c,-14,-25,30,26,2,year>=2000?'#2d6b84':'#194661');round(c,-12,-20,18,5,2,'#e7a65c');disk(c,6,-6,5,5,'#a4ebc4');c.restore();q=iso(o.x+.55,o.y+.30,51);disk(c,q.x-5,q.y,4,4,'#e28e62');disk(c,q.x+7,q.y-2,3,3,'#badd7b');}
+function lamp(c,o){shadow(c,o.x+.15,o.y+.15,15,8);let q=iso(o.x+.12,o.y+.22);line(c,q.x,q.y-98,q.x,q.y-7,'#514440',6);disk(c,q.x,q.y-97,22,8,'#dfb78c');disk(c,q.x,q.y-85,16,5,'#fff1c3');let glow=c.createRadialGradient(q.x,q.y-73,1,q.x,q.y-73,108);glow.addColorStop(0,'#ffdba055');glow.addColorStop(1,'#ffdba000');c.fillStyle=glow;c.fillRect(q.x-110,q.y-176,220,220)}
+function radio(c,o,year){shadow(c,o.x+.25,o.y+.2,22,11);prism(c,o.x,o.y,.51,.43,46,year>=1995?'#626b70':'#b08d66','#625043','#493d39');let q=iso(o.x+.28,o.y+.37,43);round(c,q.x-17,q.y-12,34,20,2,'#303b43','#c9b58c',2);for(let i=0;i<3;i++)disk(c,q.x-8+i*8,q.y-3,3,3,'#bea47a')}
+function drawObj(c,o,year){if(o.type==='desk')desk(c,o,year);else if(o.type==='bench')bench(c,o,year);else if(o.type==='shelf')shelf(c,o,year);else if(o.type==='coffee')coffee(c,o);else if(o.type==='boxes')boxes(c,o);else if(o.type==='plant')plant(c,o);else if(o.type==='sofa')sofa(c,o);else if(o.type==='arcade')arcade(c,o,year);else if(o.type==='lamp')lamp(c,o);else if(o.type==='radio')radio(c,o,year)}
 // Navigation grid with desk/bench/shelf avoidance and a corridor through the middle.
 const GRID=3, nx=Math.ceil(world.w*GRID),ny=Math.ceil(world.h*GRID), key=(x,y)=>x+','+y;
 function blocked(x,y){if(x<.20||y<.20||x>world.w-.2||y>world.h-.2)return true;
@@ -135,7 +144,7 @@ function drawStaff(c,p,e,t,year,working){let pt=iso(e.x,e.y);const isWork=e.mode
  if(e.mode==='meeting'){c.fillStyle='#fff0bf';c.font='bold 11px system-ui';c.fillText('···',-7,-72)}
  c.restore()}
 let lastRender={stage:null,state:null,camera:null,f:null};
-function frame(stage,camera){const vw=SIZE.w,vh=SIZE.h,fit=Math.min((stage.width-12)/(vw*.84),(stage.height-(stage.width<700?116:70))/(vh*.88));const rel=Math.max(.9,Math.min(3.1,camera.zoom/Math.max(.01,camera.initialZoom||camera.zoom||1)));let s=fit*rel;
+function frame(stage,camera){const vw=SIZE.w,vh=SIZE.h,fit=Math.min((stage.width-12)/(vw*.84),(stage.height-(stage.width<700?116:70))/(vh*.88));const mobileSceneBoost=stage.width<600?1.19:1;const rel=Math.max(.9,Math.min(3.1,camera.zoom/Math.max(.01,camera.initialZoom||camera.zoom||1)));let s=fit*rel*mobileSceneBoost;
  // office stays centered in both orientations unless player has panned
  const panX=Math.max(-stage.width*.45,Math.min(stage.width*.45,camera.panX)),panY=Math.max(-stage.height*.34,Math.min(stage.height*.34,camera.panY));return{s,x:(stage.width-vw*s)/2+panX,y:(stage.height-vh*s)/2+panY+stage.height*.03}}
 function render(c,stage,state,camera,t){if((state.office||1)!==1)return previous.render(c,stage,state,camera,t);
@@ -153,5 +162,5 @@ function render(c,stage,state,camera,t){if((state.office||1)!==1)return previous
 function hit(x,y,stage,state,camera){if((state.office||1)!==1)return previous.hit(x,y,stage,state,camera);const f=frame(stage,camera),wx=(x-f.x)/f.s,wy=(y-f.y)/f.s;
  for(let i=state.staff.length-1;i>=0;i--){const p=state.staff[i],e=movers.get(p.id);if(!e)continue;const q=iso(e.x,e.y,27),d=Math.hypot(wx-q.x,wy-q.y);if(d<31)return {type:'person',id:p.id,name:p.name,sx:q.x*f.s+f.x,sy:q.y*f.s+f.y};}
  let best=null,min=Infinity;for(const o of objects){const q=iso(o.x+o.w*.45,o.y+o.d*.4,40),d=Math.hypot(wx-q.x,wy-q.y);if(d<75&&d<min){min=d;best={type:o.interact,name:({develop:'Development workstation',team:'Staff break area',studio:'Garage & expansion',research:'Prototype bench'})[o.interact],sx:q.x*f.s+f.x,sy:q.y*f.s+f.y}}}return best}
-window.PremiumStudio={...previous,render,hit,resetCache(){staticCache=null;cacheEra=-1;previous.resetCache?.()},get garageManifest(){return manifest},get garageDebug(){return {staff:[...movers.values()].map(e=>({id:e.id,x:e.x,y:e.y,activity:e.mode,path:e.path.length})),staticEmployees:0,objectCount:objects.length}},get garageRoute(){return route}};
+window.PremiumStudio={...previous,render,hit,resetCache(){staticCache=null;cacheEra=-1;previous.resetCache?.()},get garageManifest(){return manifest},get garageDebug(){return {staff:[...movers.values()].map(e=>({id:e.id,x:e.x,y:e.y,activity:e.mode,path:e.path.length})),staticEmployees:0,objectCount:objects.length,navigationGrid:[nx,ny],independentSprites:true}},get garageRoute(){return route}};
 })();
