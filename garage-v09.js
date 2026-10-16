@@ -20,7 +20,14 @@ const objects=[
 {id:'couch',type:'sofa',x:.80,y:.95,w:1.28,d:.54,layer:'actor',interact:'team'},
 {id:'arcade',type:'arcade',x:6.35,y:2.53,w:.62,d:.54,layer:'actor',interact:'studio'},
 {id:'floor_lamp',type:'lamp',x:.32,y:2.55,w:.33,d:.34,layer:'actor',interact:'studio'},
-{id:'equipment',type:'radio',x:6.10,y:3.63,w:.53,d:.45,layer:'actor',interact:'research'}
+{id:'equipment',type:'radio',x:6.10,y:3.63,w:.53,d:.45,layer:'actor',interact:'research'},
+{id:'filecabinet',type:'filing',x:5.65,y:.42,w:.5,d:.45,layer:'actor',interact:'studio'},
+{id:'worklight',type:'worklight',x:6.9,y:3.35,w:.22,d:.20,layer:'actor',interact:'studio',solid:false},
+{id:'designwall',type:'pinwall',x:.30,y:4.30,w:.15,d:.15,layer:'actor',interact:'research',solid:false},
+{id:'vinyl',type:'record',x:1.70,y:.64,w:.42,d:.41,layer:'actor',interact:'team'},
+{id:'bike',type:'bike',x:6.86,y:4.90,w:.48,d:.35,layer:'actor',interact:'studio',solid:false},
+{id:'tooldesk',type:'toolbox',x:4.82,y:.48,w:.50,d:.40,layer:'actor',interact:'studio'},
+{id:'rug',type:'rug',x:2.68,y:3.08,w:1.08,d:.55,layer:'floor',interact:'studio',solid:false}
 ];
 const manifest={version:1,projection:{kind:'isometric',tile:[70,35],origin:[world.ox,world.oy]},eraSets:['1975-1989','1990-2009','2010+'],assets:objects.map(o=>({id:o.id,type:o.type,anchor:[o.x,o.y],collision:[o.x-.30,o.y-.26,o.w,o.d],drawLayer:o.layer,interaction:o.interact,tier:1,approxTextureBytes:0}))};
 let staticCache=null,cacheEra=-1;const movers=new Map();let lastTime=0;
@@ -68,7 +75,7 @@ function detail(c,year){
  for(let k=0;k<2;k++){let h=iso(1.8+k*3.1,0,169);line(c,h.x,h.y,h.x,h.y+31,'#2e3032',3);disk(c,h.x,h.y+37,15,6,'#272f36');let gr=c.createRadialGradient(h.x,h.y+56,2,h.x,h.y+56,120);gr.addColorStop(0,'#fff3cf50');gr.addColorStop(1,'#f5c77a00');c.fillStyle=gr;c.fillRect(h.x-130,h.y-80,260,210)}
  // paper plans/garage art on wall, era aware
  let plan=iso(.18,3.0,96);c.save();c.translate(plan.x,plan.y);c.rotate(-.44);round(c,-37,-36,86,65,3,'#c9b49a','#4c4139',3);for(let i=0;i<5;i++){line(c,-28,-25+i*11,14+(i%2)*14,-24+i*11,i%2?'#ad8164':'#46737c',2)}c.restore();
- let sign=iso(.18,1.30,95);c.save();c.translate(sign.x,sign.y);c.rotate(-.46);c.shadowColor='#fcb26f';c.shadowBlur=12;round(c,-10,-30,112,40,4,'#2a2c34','#f2af7344');c.shadowBlur=0;c.fillStyle='#f9c790';c.font='bold 14px system-ui';c.fillText(modern?'INDIE WORKSHOP':'GARAGE GAMES',0,-5);c.restore();
+ // The studio sign is now a live branded object, updated from actual career data.
  // ambient light and fine noise are cached with the structural scene
  let light=c.createRadialGradient(690,465,30,690,465,560);light.addColorStop(0,'#ffcf8b19');light.addColorStop(1,'#e2ad5700');c.fillStyle=light;c.fillRect(0,0,SIZE.w,SIZE.h);
 }
@@ -101,11 +108,21 @@ function sofa(c,o){shadow(c,o.x+.55,o.y+.3,70,19,.26);const seat=prism(c,o.x,o.y
 function arcade(c,o,year){shadow(c,o.x+.28,o.y+.28,30,15);prism(c,o.x,o.y,.65,.55,115,year>=1995?'#364457':'#a85f48','#323641','#252d38');let q=iso(o.x+.54,o.y+.18,91);c.save();c.translate(q.x,q.y);c.rotate(-.15);round(c,-19,-30,40,37,3,'#101e29','#f5ae78',3);round(c,-14,-25,30,26,2,year>=2000?'#2d6b84':'#194661');round(c,-12,-20,18,5,2,'#e7a65c');disk(c,6,-6,5,5,'#a4ebc4');c.restore();q=iso(o.x+.55,o.y+.30,51);disk(c,q.x-5,q.y,4,4,'#e28e62');disk(c,q.x+7,q.y-2,3,3,'#badd7b');}
 function lamp(c,o){shadow(c,o.x+.15,o.y+.15,15,8);let q=iso(o.x+.12,o.y+.22);line(c,q.x,q.y-98,q.x,q.y-7,'#514440',6);disk(c,q.x,q.y-97,22,8,'#dfb78c');disk(c,q.x,q.y-85,16,5,'#fff1c3');let glow=c.createRadialGradient(q.x,q.y-73,1,q.x,q.y-73,108);glow.addColorStop(0,'#ffdba055');glow.addColorStop(1,'#ffdba000');c.fillStyle=glow;c.fillRect(q.x-110,q.y-176,220,220)}
 function radio(c,o,year){shadow(c,o.x+.25,o.y+.2,22,11);prism(c,o.x,o.y,.51,.43,46,year>=1995?'#626b70':'#b08d66','#625043','#493d39');let q=iso(o.x+.28,o.y+.37,43);round(c,q.x-17,q.y-12,34,20,2,'#303b43','#c9b58c',2);for(let i=0;i<3;i++)disk(c,q.x-8+i*8,q.y-3,3,3,'#bea47a')}
-function drawObj(c,o,year){if(o.type==='desk')desk(c,o,year);else if(o.type==='bench')bench(c,o,year);else if(o.type==='shelf')shelf(c,o,year);else if(o.type==='coffee')coffee(c,o);else if(o.type==='boxes')boxes(c,o);else if(o.type==='plant')plant(c,o);else if(o.type==='sofa')sofa(c,o);else if(o.type==='arcade')arcade(c,o,year);else if(o.type==='lamp')lamp(c,o);else if(o.type==='radio')radio(c,o,year)}
+
+function filing(c,o){shadow(c,o.x+.22,o.y+.2,26,11);prism(c,o.x,o.y,.55,.48,81,'#adb1a2','#52616b','#43515a');for(let j=0;j<3;j++){const p=iso(o.x+.54,o.y+.30,66-j*23);round(c,p.x-14,p.y-8,29,18,2,'#586a76','#b3bcb8',1);round(c,p.x-5,p.y-1,12,3,1,'#d7d7bf')}}
+function worklight(c,o){let p=iso(o.x,o.y);shadow(c,o.x,o.y,15,5,.20);line(c,p.x-10,p.y,p.x,p.y-105,'#313f48',5);line(c,p.x,p.y-105,p.x+20,p.y-116,'#313f48',4);disk(c,p.x+20,p.y-111,17,8,'#d6b080');disk(c,p.x+19,p.y-106,11,4,'#ffefbf');let gr=c.createRadialGradient(p.x+20,p.y-105,4,p.x+20,p.y-105,80);gr.addColorStop(0,'#fff2ba42');gr.addColorStop(1,'#fff2ba00');c.fillStyle=gr;c.fillRect(p.x-50,p.y-180,150,150)}
+function pinwall(c,o,year){const p=iso(o.x,o.y,94);c.save();c.translate(p.x,p.y);c.rotate(-.45);round(c,-9,-46,101,76,3,'#b38861','#523b31',5);round(c,-4,-40,91,65,2,'#c1ae85');for(let j=0;j<6;j++){let xx=2+(j%3)*28,yy=-34+Math.floor(j/3)*30;round(c,xx,yy,20,23,2,['#f6dec1','#d6c69a','#d0ded2','#f0c19d'][j%4]);line(c,xx+3,yy+6,xx+15,yy+6,'#6e7475',1);line(c,xx+3,yy+11,xx+12,yy+11,'#879aa0',1);disk(c,xx+10,yy+2,2,2,'#ad6b50')}c.restore()}
+function record(c,o,year){shadow(c,o.x+.2,o.y+.2,22,9);prism(c,o.x,o.y,.5,.38,33,'#b89268','#614b40','#493b33');let q=iso(o.x+.2,o.y+.18,36);disk(c,q.x,q.y,14,7,'#1f232c');disk(c,q.x,q.y,4,2,'#d7ad73');line(c,q.x+8,q.y-9,q.x+16,q.y-17,'#b2a89a',2)}
+function bike(c,o){let p=iso(o.x,o.y);shadow(c,o.x,o.y,29,7,.15);const wheel1={x:p.x-27,y:p.y-18},wheel2={x:p.x+27,y:p.y-5};for(const w of [wheel1,wheel2]){c.beginPath();c.arc(w.x,w.y,16,0,TAU);c.lineWidth=3;c.strokeStyle='#263640';c.stroke();for(let k=0;k<7;k++){let a=k*TAU/7;line(c,w.x,w.y,w.x+14*Math.cos(a),w.y+14*Math.sin(a),'#c3bab0',.7)}}line(c,wheel1.x,wheel1.y,p.x+2,p.y-26,'#e88956',4);line(c,p.x+2,p.y-26,wheel2.x,wheel2.y,'#e88956',4);line(c,wheel1.x,wheel1.y,p.x-3,p.y-1,'#e88956',4);line(c,p.x-3,p.y-1,wheel2.x,wheel2.y,'#e88956',3);line(c,p.x+2,p.y-26,p.x+5,p.y-39,'#263640',3);line(c,p.x-7,p.y-31,p.x+6,p.y-31,'#263640',3);line(c,wheel2.x,wheel2.y,p.x+27,p.y-29,'#263640',3)}
+function toolbox(c,o){shadow(c,o.x+.24,o.y+.19,25,8,.18);prism(c,o.x,o.y,.54,.45,49,'#aa5d4b','#863d39','#6f3836');for(let j=0;j<3;j++){let p=iso(o.x+.5,o.y+.32,43-j*10);round(c,p.x-12,p.y-4,25,9,1,'#ad6e63','#573e3b');line(c,p.x-4,p.y+1,p.x+4,p.y+1,'#ead1a5',2)}}
+function carpet(c,o){let a=[iso(o.x,o.y),iso(o.x+o.w,o.y),iso(o.x+o.w,o.y+o.d),iso(o.x,o.y+o.d)];poly(c,a,'#6d3c45ac','#d9a17b',3);for(let j=0;j<5;j++){let p=iso(o.x+.12+j*.2,o.y+.1),q=iso(o.x+.14+j*.2,o.y+o.d-.06);line(c,p.x,p.y,q.x,q.y,'#c98c6f78',1.6)}}
+function dynamicBrand(c,state){const p=iso(.14,1.35,134);c.save();c.translate(p.x,p.y);c.rotate(-.46);c.shadowColor='#ed9e64';c.shadowBlur=16;round(c,-13,-32,165,43,6,'#172935','#f6b781b0',2);c.shadowBlur=0;c.fillStyle='#ffdca8';c.font='bold 15px system-ui';let label=String(state.studio||'GARAGE').toUpperCase();if(label.length>19)label=label.slice(0,18)+'…';c.fillText(label,0,-6,145);c.restore()}
+
+function drawObj(c,o,year){if(o.type==='desk')desk(c,o,year);else if(o.type==='bench')bench(c,o,year);else if(o.type==='shelf')shelf(c,o,year);else if(o.type==='coffee')coffee(c,o);else if(o.type==='boxes')boxes(c,o);else if(o.type==='plant')plant(c,o);else if(o.type==='sofa')sofa(c,o);else if(o.type==='arcade')arcade(c,o,year);else if(o.type==='lamp')lamp(c,o);else if(o.type==='radio')radio(c,o,year);else if(o.type==='filing')filing(c,o);else if(o.type==='worklight')worklight(c,o);else if(o.type==='pinwall')pinwall(c,o,year);else if(o.type==='record')record(c,o,year);else if(o.type==='bike')bike(c,o);else if(o.type==='toolbox')toolbox(c,o);else if(o.type==='rug')carpet(c,o)}
 // Navigation grid with desk/bench/shelf avoidance and a corridor through the middle.
 const GRID=3, nx=Math.ceil(world.w*GRID),ny=Math.ceil(world.h*GRID), key=(x,y)=>x+','+y;
 function blocked(x,y){if(x<.20||y<.20||x>world.w-.2||y>world.h-.2)return true;
- return objects.some(o=>o.type!=='plant'&&x>o.x-.45&&x<o.x+o.w+.25&&y>o.y-.42&&y<o.y+o.d+.2)}
+ return objects.some(o=>o.type!=='plant'&&o.solid!==false&&x>o.x-.45&&x<o.x+o.w+.25&&y>o.y-.42&&y<o.y+o.d+.2)}
 const walkable=Array.from({length:nx},(_,i)=>Array.from({length:ny},(_,j)=>!blocked((i+.5)/GRID,(j+.5)/GRID)));
 function nearestFree(x,y){const ix=Math.max(0,Math.min(nx-1,Math.floor(x*GRID))),iy=Math.max(0,Math.min(ny-1,Math.floor(y*GRID)));if(walkable[ix][iy])return [ix,iy];for(let rad=1;rad<10;rad++)for(let i=ix-rad;i<=ix+rad;i++)for(let j=iy-rad;j<=iy+rad;j++)if(i>=0&&j>=0&&i<nx&&j<ny&&walkable[i][j])return[i,j];return[ix,iy]}
 function route(start,end){let [sx,sy]=nearestFree(start.x,start.y),[tx,ty]=nearestFree(end.x,end.y);let open=[{x:sx,y:sy,g:0,f:Math.abs(tx-sx)+Math.abs(ty-sy)}],seen=new Map([[key(sx,sy),open[0]]]),closed=new Set();let last=null;
@@ -151,9 +168,9 @@ function render(c,stage,state,camera,t){if((state.office||1)!==1)return previous
  const era=state.year>=2000?2:state.year>=1990?1:0;
  if(!staticCache||cacheEra!==era){staticCache=document.createElement('canvas');staticCache.width=SIZE.w*1.6;staticCache.height=SIZE.h*1.6;const ctx=staticCache.getContext('2d');ctx.scale(1.6,1.6);detail(ctx,state.year);cacheEra=era}
  tickEmployees(state,t);let f=frame(stage,camera);c.fillStyle='#0c1d2b';c.fillRect(0,0,stage.width,stage.height);
- c.save();c.translate(f.x,f.y);c.scale(f.s,f.s);c.drawImage(staticCache,0,0,SIZE.w,SIZE.h);
+ c.save();c.translate(f.x,f.y);c.scale(f.s,f.s);c.drawImage(staticCache,0,0,SIZE.w,SIZE.h);dynamicBrand(c,state);
  // painter's algorithm: all interactable objects and actors share the SAME depth sort
- const worldObjects=objects.map(o=>({z:iso(o.x+o.w*.5,o.y+o.d*.5).y,draw:()=>drawObj(c,o,state.year)}));
+ const worldObjects=objects.map(o=>({z:o.layer==='floor'?-1000:iso(o.x+o.w*.5,o.y+o.d*.5).y,draw:()=>drawObj(c,o,state.year)}));
  const people=state.staff.map((p,i)=>{const e=movers.get(p.id);return {z:iso(e.x,e.y).y+.3,draw:()=>drawStaff(c,p,e,t,state.year,!!(state.project&&!state.project.ready))}});
  [...worldObjects,...people].sort((a,b)=>a.z-b.z).forEach(entry=>entry.draw());
  // contextual markers are live UI, NEVER painted into the static layer
