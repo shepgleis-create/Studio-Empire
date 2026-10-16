@@ -60,9 +60,10 @@ async def main():
    await page.wait_for_function('!!window.StudioEmpireOfficeEconomy',timeout=60000)
    await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
    await page.locator('[data-menu-action="continue"]').click()
-   await page.locator('#office-buy-open').click()
-   assert await page.locator('#office-purchase-confirm').is_enabled()
-   await page.locator('#office-purchase-confirm').click()
+   # Purchase through the visible unified management flow, not the retired small-screen button.
+   await page.locator('#se20-manage').click()
+   await page.locator('[data-se20-group="business"]').click()
+   await page.locator('[data-do="buy-office"]').click()
    await page.wait_for_timeout(2800)
    saved=await page.evaluate('JSON.parse(localStorage.getItem("studio-empire-reboot-v1"))')
    assert saved['office']==2 and saved['cash']==35000,('purchase save not updated',saved.get('office'),saved.get('cash'))
