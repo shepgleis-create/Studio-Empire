@@ -20,11 +20,12 @@ async def main():
       assert await page.evaluate('window.StudioEmpire3D.debug().objectsAreMeshes'), 'Game engine scene did not render physical meshes'
       await page.screenshot(path=str(OUT/f'{width}-3d-office.png'))
       launch='#career-mobile' if width<600 else '#career-open'
-      await page.locator(launch).click()
-      assert await page.locator('#career-create-form').is_visible(), 'First career setup not shown'
-      await page.locator('#career-create-form input[name="studio"]').fill('Mosaic Circuit')
-      await page.locator('#career-create-form input[name="founder"]').fill('Morgan Fox')
-      await page.locator('#career-create-form button[type="submit"]').click()
+      # New careers begin at the real main menu (not an obsolete overlay).
+      assert await page.locator('#studio19-menu').is_visible()
+      await page.locator('[data-menu-action="new"]').click()
+      await page.locator('#studio19-new-form [name="studio"]').fill('Mosaic Circuit')
+      await page.locator('#studio19-new-form [name="founder"]').fill('Morgan Fox')
+      await page.locator('#studio19-new-form button[type="submit"]').click()
       await page.wait_for_function("document.body.dataset.engine === 'running' && !!window.StudioEmpireCareerUI && window.StudioEmpireCareer.read()?.studio==='Mosaic Circuit'",timeout=70000)
       assert await page.evaluate('window.StudioEmpireCareer.read().staff.length')==1
       await page.locator(launch).click()
