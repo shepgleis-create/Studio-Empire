@@ -170,13 +170,13 @@ function building(level){
  }
  g.setEnabled(false);const r={root:g,figures};scenes.set(level,r);return r;
 }
-function frameCamera(tier){
+function frameCamera(tier,fitAll=false){
  const aspect=Math.max(.45,api.engine.getRenderWidth()/Math.max(1,api.engine.getRenderHeight()));
  // Fit the *projected* isometric room rather than a fixed height across devices.
  // Wide desktop gets close, portrait phone steps back enough to show the full HQ.
  const [w,d]=specs[tier-1].size;
  const projectedWidth=(w+d)*.72+2,projectedHeight=(w+d)*.37+4;
- const height=tier===1?15:Math.max(projectedHeight/.92,projectedWidth/(aspect*.90));
+ const height=(tier===1?15:Math.max(projectedHeight/.92,projectedWidth/(aspect*.90)))*(window.innerWidth<600&&tier>=3&&!fitAll?.73:1);
  cam.setTarget(new B.Vector3(0,1.0,0));cam.orthoTop=height/2;cam.orthoBottom=-height/2;
  cam.orthoLeft=-height*aspect/2;cam.orthoRight=height*aspect/2;
  cam.radius=[19,26,40,54][tier-1];
@@ -195,8 +195,8 @@ function selectTier(t){
  document.querySelectorAll('[data-office-tier]').forEach(el=>{el.classList.toggle('selected-tier',Number(el.dataset.officeTier)===t);el.setAttribute('aria-pressed',String(Number(el.dataset.officeTier)===t));});
  const status=$('tour-status');if(status)status.textContent=t===1?'LIVE CAREER · GARAGE':'3D ARCHITECTURE TOUR · NOT PURCHASED';
  const label=$('tour-label');if(label)label.textContent=specs[t-1].name.toUpperCase();
- const staffCount=$('workplace-label');if(staffCount)staffCount.textContent=t===1?'1 FOUNDER · GARAGE WORKSTATIONS':((t===2?4:t===3?10:20)+' ANIMATED TOUR FIGURES · '+(t===2?6:t===3?14:24)+' WORKSTATIONS');
- const detail=$('tour-detail');if(detail)detail.textContent=t===1?'One founder, one garage':specs[t-1].desc+' · $'+specs[t-1].cost.toLocaleString()+' to unlock in future integrated gameplay';
+ const staffCount=$('workplace-label');if(staffCount)staffCount.textContent=t===1?'1 FOUNDER · GARAGE WORKSTATIONS':(career.staff.length+' EMPLOYEES · '+(t===2?6:t===3?14:24)+' WORKSTATIONS');
+ const detail=$('tour-detail');if(detail)detail.textContent=t===1?'One founder, one garage':specs[t-1].desc+' · Owned in current career';
  return true;
 }
 function hud(){
@@ -210,9 +210,9 @@ function hud(){
  const stats=document.querySelector('.topbar .stats');
  if(stats){stats.insertAdjacentHTML('beforeend','<div class="concept-stat"><small>FANS</small><strong>'+Number(career.fans||0).toLocaleString()+'</strong></div><div class="concept-stat"><small>REPUTATION</small><strong>'+Math.round(career.reputation||0)+'</strong></div>');}
  const stage=$('stage');
- if(stage)stage.insertAdjacentHTML('beforeend','<div class="concept-goals"><strong>CURRENT GOALS</strong><p id="tour-detail">One founder, one garage</p><p>Develop games, hire staff, grow the studio</p><small>Office selection is a preview, not a purchase.</small></div>');
+ if(stage)stage.insertAdjacentHTML('beforeend','<div class="concept-goals"><strong>CURRENT GOALS</strong><p id="tour-detail">One founder, one garage</p><p>Develop games, hire staff, grow the studio</p><small>Office ownership uses your saved career.</small></div>');
  const bottom=document.querySelector('.bottom-row');
- if(bottom)bottom.insertAdjacentHTML('afterend','<div class="concept-snapshot"><button data-open="projects"><span>ACTIVE PROJECT</span><b>'+escape(career.project?.title||'No project in development')+'</b><small>Actual saved career data</small></button><button data-open="staff"><span>EMPLOYEES</span><b>'+career.staff.length+' saved</b><small>Founder-led studio progression</small></button><button data-open="finances"><span>COMPANY CASH</span><b>$'+Number(career.cash||0).toLocaleString()+'</b><small>No tour purchases are charged</small></button><button data-open="studio"><span>OFFICE GROWTH</span><b>4 distinct tiers</b><small>Garage → Global HQ</small></button></div>');
+ if(bottom)bottom.insertAdjacentHTML('afterend','<div class="concept-snapshot"><button data-open="projects"><span>ACTIVE PROJECT</span><b>'+escape(career.project?.title||'No project in development')+'</b><small>Actual saved career data</small></button><button data-open="staff"><span>EMPLOYEES</span><b>'+career.staff.length+' saved</b><small>Founder-led studio progression</small></button><button data-open="finances"><span>COMPANY CASH</span><b>$'+Number(career.cash||0).toLocaleString()+'</b><small>Live balance from your saved career</small></button><button data-open="studio"><span>OFFICE GROWTH</span><b>4 distinct tiers</b><small>Garage → Global HQ</small></button></div>');
  document.querySelectorAll('.concept-snapshot [data-open]').forEach(b=>b.addEventListener('click',()=>document.querySelector('.menuitem[data-panel="'+b.dataset.open+'"]')?.click()));
  const time=document.querySelector('.times'),top=document.querySelector('.topbar');
  if(time&&top)top.insertBefore(time,top.querySelector('.old-game'));
@@ -233,7 +233,7 @@ sc.onBeforeRenderObservable.add(()=>{
  }
 });
 const reset=$('fit');
-reset?.addEventListener('click',e=>{e.stopImmediatePropagation();frameCamera(active);},true);
+reset?.addEventListener('click',e=>{e.stopImmediatePropagation();frameCamera(active,true);},true);
 for(const [id,factor] of [['zoom-in',.82],['zoom-out',1.22]]){
  $(id)?.addEventListener('click',e=>{e.stopImmediatePropagation();
  const h=Math.abs(cam.orthoTop-cam.orthoBottom)*factor,aspect=Math.max(.45,api.engine.getRenderWidth()/Math.max(1,api.engine.getRenderHeight()));
