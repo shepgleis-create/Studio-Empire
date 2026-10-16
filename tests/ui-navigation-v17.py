@@ -20,7 +20,7 @@ async def run():
       # Create a career when this browser profile has no local save.
       trigger="#career-mobile" if width<600 else "#career-open"
       # A new career begins through the fully interactive main menu.
-      assert await page.locator("#studio19-menu").is_visible()
+      await page.locator("#studio19-menu").wait_for(state="visible",timeout=25000)
       await page.locator('[data-menu-action="new"]').click()
       await page.locator('#studio19-new-form [name="studio"]').fill("Mosaic Circuit")
       await page.locator('#studio19-new-form [name="founder"]').fill("Morgan Fox")
