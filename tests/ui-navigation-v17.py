@@ -19,14 +19,13 @@ async def run():
       assert await page.evaluate("window.StudioEmpire3D.debug().objectsAreMeshes"),"3D must render real meshes"
       # Create a career when this browser profile has no local save.
       trigger="#career-mobile" if width<600 else "#career-open"
-      await page.locator(trigger).click()
-      if await page.locator("#career-create-form").count():
-        await page.locator('#career-create-form [name="studio"]').fill("Mosaic Circuit")
-        await page.locator('#career-create-form [name="founder"]').fill("Morgan Fox")
-        await page.locator('#career-create-form button[type="submit"]').click()
-        await page.wait_for_function("document.body.dataset.engine==='running' && window.StudioEmpireCareer?.read()?.studio==='Mosaic Circuit' && !!window.StudioEmpireUnifiedUI",timeout=85000)
-      else:
-        await page.locator("#career-close").click()
+      # A new career begins through the fully interactive main menu.
+      assert await page.locator("#studio19-menu").is_visible()
+      await page.locator('[data-menu-action="new"]').click()
+      await page.locator('#studio19-new-form [name="studio"]').fill("Mosaic Circuit")
+      await page.locator('#studio19-new-form [name="founder"]').fill("Morgan Fox")
+      await page.locator('#studio19-new-form button[type="submit"]').click()
+      await page.wait_for_function("document.body.dataset.engine==='running' && window.StudioEmpireCareer?.read()?.studio==='Mosaic Circuit' && !!window.StudioEmpireUnifiedUI",timeout=85000)
       nav=".mobile-nav" if width<600 else ".navpanel"
       tests=[("staff","team"),("projects","projects"),("finances","dashboard")]
       for requested,expected in tests:
