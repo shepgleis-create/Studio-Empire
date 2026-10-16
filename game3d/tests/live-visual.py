@@ -33,7 +33,7 @@ async def main():
                 after=await page.evaluate("window.StudioEmpire3D.camera.orthoTop")
                 assert after<before['zoom'],('zoom control failed',before,after)
                 await page.locator('#fit').click()
-                viewport=page.locator('#scene')
+                viewport=page.locator('#renderCanvas')
                 box=await viewport.bounding_box()
                 if box:
                     await page.mouse.move(box['x']+box['width']*.47,box['y']+box['height']*.52)
