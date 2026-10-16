@@ -177,7 +177,8 @@ function frameCamera(tier,fitAll=false){
  const [w,d]=specs[tier-1].size;
  const projectedWidth=(w+d)*.72+2,projectedHeight=(w+d)*.37+4;
  // Center the complete projected room, even in a narrow portrait viewport.
- const height=Math.max(projectedHeight/.92,projectedWidth/(aspect*.93));
+ const fullHeight=Math.max(projectedHeight/.92,projectedWidth/(aspect*.93));
+ const height=tier===1&&window.innerWidth<600?fullHeight*.90:fullHeight;
  cam.setTarget(new B.Vector3(0,1.0,0));cam.orthoTop=height/2;cam.orthoBottom=-height/2;
  cam.orthoLeft=-height*aspect/2;cam.orthoRight=height*aspect/2;
  cam.radius=[19,26,40,54][tier-1];
