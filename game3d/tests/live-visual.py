@@ -45,8 +45,8 @@ async def main():
         for(let i=0;i<pix.length;i+=4)if(pix[i]>110&&pix[i+1]>85&&pix[i+2]>60)n++;return n>10;
      }""",timeout=22000)
      await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
-      await page.locator('[data-menu-action="continue"]').click()
-      shot=ROOT/f'actual-3d-{width}-tier{tier}.png';await page.screenshot(path=str(shot),full_page=True)
+     await page.locator('[data-menu-action="continue"]').click()
+     shot=ROOT/f'actual-3d-{width}-tier{tier}.png';await page.screenshot(path=str(shot),full_page=True)
      assert not errors,errors
      tierResults.append({'tier':tier,'actors':debug['actors'],'meshes':debug['meshes'],'screenshot':shot.name})
      await context.close()
@@ -58,6 +58,8 @@ async def main():
    page=await context.new_page();page.on('dialog',lambda d:asyncio.create_task(d.accept()))
    await page.goto(URL,wait_until='domcontentloaded',timeout=60000)
    await page.wait_for_function('!!window.StudioEmpireOfficeEconomy',timeout=60000)
+   await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
+   await page.locator('[data-menu-action="continue"]').click()
    await page.locator('#office-buy-open').click()
    assert await page.locator('#office-purchase-confirm').is_enabled()
    await page.locator('#office-purchase-confirm').click()
