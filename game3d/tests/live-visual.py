@@ -2,13 +2,15 @@
 Unlike offline UI smoke checks, this test fails if CDN/renderer never starts.
 Runs on GitHub-hosted Ubuntu with Playwright Chromium installed.
 """
-import asyncio,json,sys,time
+import asyncio,json,sys,time,subprocess
 from pathlib import Path
 from playwright.async_api import async_playwright
 ROOT=Path(__file__).resolve().parents[1]
 URL=sys.argv[1] if len(sys.argv)>1 else 'http://127.0.0.1:8765/game3d/'
 SIZES=[(390,844),(844,390),(1280,800)]
 async def main():
+    for js in ('garage.js','office-progression.js','bridge.js'):
+        subprocess.run(['node','--check',str(ROOT/js)],check=True)
     report={'url':URL,'results':[]}
     async with async_playwright() as p:
         browser=await p.chromium.launch(headless=True,args=[
