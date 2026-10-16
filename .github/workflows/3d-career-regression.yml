@@ -29,10 +29,14 @@ jobs:
           sleep 2
       - name: Verify real WebGL 3D and complete career workflow
         run: python tests/3d-career-browser.py
+      - name: Verify unified phone navigation and premium UI regression
+        run: python tests/ui-navigation-v17.py
       - name: Upload actual gameplay proof
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: studio-empire-v016-actual-browser
-          path: game3d/tests/career-browser-proof/
+          path: |
+            game3d/tests/career-browser-proof/
+            game3d/tests/ui-v17-actual/
           if-no-files-found: ignore
