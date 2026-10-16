@@ -38,5 +38,29 @@ if(stage)stage.setAttribute('aria-label','Interactive three-dimensional office: 
 document.querySelector('.mobile-nav')?.setAttribute('aria-label','Studio Empire career sections');
 const marker=document.createElement('span');marker.className='v17-ui-marker';marker.textContent='LIVE CAREER';
 document.querySelector('.scene-header')?.append(marker);
+// Compact live mobile intelligence strip uses the real career snapshot, never demo totals.
+const brief=document.createElement('div');brief.className='v17-mobile-brief';
+brief.innerHTML='<button data-brief="projects"><span>ACTIVE PROJECT</span><strong id="v17-project">—</strong><small id="v17-project-state">Tap to develop</small></button>'+
+ '<button data-brief="offices"><span>STUDIO GROWTH</span><strong id="v17-upgrade">—</strong><small id="v17-upgrade-state">Tap for requirements</small></button>';
+document.querySelector('.bottom-row')?.insertAdjacentElement('afterend',brief);
+const dollar=v=>',get current(){return active},debug(){return{registered:true,legacySheetHidden:!legacy||legacy.hidden,activeSection:active,saveWrites:0}}};
+})();+Math.max(0,Math.round(Number(v)||0)).toLocaleString('en-US');
+function updateBrief(){
+ const s=window.StudioEmpireCareer?.read?.();
+ const p=s?.project;
+ document.getElementById('v17-project').textContent=p?.name||'No active game';
+ document.getElementById('v17-project-state').textContent=p?(p.ready?'Ready to release':Math.round(Math.min(100,100*Number(p.progress||0)/Math.max(1,Number(p.weeks)||1)))+'% development'):'Create your first title';
+ const next=window.StudioEmpireOfficeEconomy?.SPECS?.[s?.office||1];
+ document.getElementById('v17-upgrade').textContent=!s?'Start your career':!next?'Global HQ owned':next.name;
+ document.getElementById('v17-upgrade-state').textContent=!s?'One founder · garage':!next?'Maximum office':'Upgrade: '+dollar(next.cost);
+}
+brief.addEventListener('click',e=>{
+ const dest=e.target.closest('[data-brief]')?.dataset.brief;
+ if(dest)openSection(dest);
+});
+document.querySelector('#career-hub')?.addEventListener('click',()=>setTimeout(updateBrief,0));
+document.querySelector('#career-hub')?.addEventListener('submit',()=>setTimeout(updateBrief,0));
+window.addEventListener('storage',e=>{if(e.key===window.StudioEmpireCareer?.KEY)updateBrief()});
+updateBrief();
 window.StudioEmpireUnifiedUI={openSection,get current(){return active},debug(){return{registered:true,legacySheetHidden:!legacy||legacy.hidden,activeSection:active,saveWrites:0}}};
 })();
