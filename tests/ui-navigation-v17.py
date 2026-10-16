@@ -42,6 +42,14 @@ async def run():
       assert await page.locator("#career-body button[data-research]").count()>0,"Research not actually integrated"
       assert not await page.locator("#sheet-cover").is_visible()
       await page.locator("#career-close").click()
+      if width<600:
+        assert await page.locator('.v17-mobile-brief').is_visible(), 'Mobile live project cards missing'
+        cam_height=await page.evaluate('Math.abs(window.StudioEmpire3D.camera.orthoTop-window.StudioEmpire3D.camera.orthoBottom)')
+        assert cam_height>16, f'Garage camera must fit projected room width: {cam_height}'
+        await page.locator('.v17-mobile-brief [data-brief="projects"]').click()
+        assert await page.locator('#career-hub').is_visible()
+        assert 'active' in (await page.locator('[data-career-tab="projects"]').get_attribute('class'))
+        await page.locator('#career-close').click()
       await page.screenshot(path=str(OUT/f"{width}-office.png"),full_page=False)
       assert await page.evaluate("document.documentElement.scrollWidth<=innerWidth+2"),"Horizontal overflow"
       assert not errors,"; ".join(errors)
