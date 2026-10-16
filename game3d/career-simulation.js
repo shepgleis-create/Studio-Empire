@@ -41,7 +41,10 @@ const SHIRTS=['#b96452','#608b99','#d4ab69','#668f76','#7867a4'], SKINS=['#ca977
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const number=(x,d=0)=>Number.isFinite(Number(x))?Number(x):d;
 const clean=(x,max=50)=>String(x??'').trim().replace(/[<>\x00-\x1f]/g,'').slice(0,max);
-const money=x=>'
+const money=x=>'$'+Math.round(number(x)).toLocaleString('en-US');
+const availablePlatforms=s=>PLATFORMS.filter(p=>p.year<=s.year&&(!PLATFORM_GATES[p.id]||(s.technologies||[]).includes(PLATFORM_GATES[p.id])));
+const availableGenres=s=>GENRES.filter(g=>!GENRE_GATES[g]||(s.technologies||[]).includes(GENRE_GATES[g]));
+const availableTopics=s=>TOPICS.filter(t=>!TOPIC_GATES[t]||(s.technologies||[]).includes(TOPIC_GATES[t]));
 const date=s=>['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][(s.month||1)-1]+' '+s.year;
 const capacities=[0,4,6,12,24],rent=[0,1500,3100,6800,16000];
 const diff={story:{cash:1.65,cost:.70,sales:1.60},standard:{cash:1,cost:1,sales:1},hard:{cash:.77,cost:1.22,sales:.76},brutal:{cash:.54,cost:1.48,sales:.54}};
