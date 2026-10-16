@@ -52,6 +52,7 @@ const small=document.querySelector('.concept-goals small');if(small)small.textCo
 const officeCard=document.querySelector('.concept-snapshot [data-open="studio"]');
 if(officeCard){const b=officeCard.querySelector('b'),sm=officeCard.querySelector('small');if(b)b.textContent='OWNED LEVEL '+current+'/4';if(sm)sm.textContent=current<4?'Next office '+money(TIERS[current].cost):'Global headquarters owned'}
 const cash=byId('cash');if(cash&&career)cash.textContent=money(career.cash);
+const saveStatus=byId('save-status');if(saveStatus&&career)saveStatus.textContent='Career linked · Property upgrades spend real saved funds';
 const dialog=document.createElement('div');dialog.id='office-purchase-cover';dialog.className='office-purchase-cover';dialog.hidden=true;
 dialog.innerHTML='<section class="office-purchase-dialog" role="dialog" aria-modal="true" aria-labelledby="office-purchase-heading"><header><h2 id="office-purchase-heading">Office Upgrade</h2><button id="office-purchase-close" aria-label="Close">×</button></header><div id="office-purchase-details"></div><footer><button id="office-purchase-cancel">NOT NOW</button><button id="office-purchase-confirm">PURCHASE OFFICE</button></footer></section>';document.body.append(dialog);
 const close=()=>{dialog.hidden=true};byId('office-purchase-close').onclick=close;byId('office-purchase-cancel').onclick=close;dialog.addEventListener('click',e=>{if(e.target===dialog)close()});
