@@ -201,7 +201,7 @@ function hud(){
  const time=document.querySelector('.times'),top=document.querySelector('.topbar');
  if(time&&top)top.insertBefore(time,top.querySelector('.old-game'));
 }
-function escape(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;':'&quot;'}[c]));}
+function escape(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 hud();selectTier(1);
 let last=0;
 sc.onBeforeRenderObservable.add(()=>{
