@@ -19,7 +19,7 @@ async def main():
       await page.wait_for_function("document.body.dataset.engine === 'running' && !!window.StudioEmpireCareer && !!window.StudioEmpireCareerUI",timeout=70000)
       assert await page.evaluate('window.StudioEmpire3D.debug().objectsAreMeshes'), 'Game engine scene did not render physical meshes'
       await page.screenshot(path=str(OUT/f'{width}-3d-office.png'))
-      launch='#career-mobile' if width<600 else '#career-open'
+      launch='.mobile-nav [data-se20-dest="games"]' if width<600 else '.se20-side-link[data-se20-dest="games"]'
       # New careers begin at the real main menu (not an obsolete overlay).
       await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
       await page.locator('[data-menu-action="new"]').click()
@@ -29,7 +29,8 @@ async def main():
       await page.wait_for_function("document.body.dataset.engine === 'running' && !!window.StudioEmpireCareerUI && window.StudioEmpireCareer.read()?.studio==='Mosaic Circuit'",timeout=70000)
       assert await page.evaluate('window.StudioEmpireCareer.read().staff.length')==1
       await page.locator(launch).click()
-      await page.locator('[data-career-tab="projects"]').click()
+      assert await page.locator('#career-hub').is_visible()
+      assert await page.locator('body').get_attribute('data-se20-page')=='projects'
       await page.locator('input[name="name"]').fill('First Star')
       await page.locator('#career-project-form button[type="submit"]').click()
       assert await page.evaluate("window.StudioEmpireCareer.read().project?.name==='First Star'")
@@ -45,7 +46,7 @@ async def main():
       await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
       await page.locator('[data-menu-action="continue"]').click()
       await page.locator(launch).click()
-      await page.locator('[data-career-tab="dashboard"]').click()
+      await page.locator('[data-se20-group="overview"]').click()
       await page.screenshot(path=str(OUT/f'{width}-career-management.png'))
       assert await page.evaluate("window.StudioEmpireCareer.read().games[0].name==='First Star'")
       assert await page.evaluate('window.StudioEmpireCareer.read().fans>0')
