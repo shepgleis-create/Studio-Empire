@@ -43,8 +43,7 @@ const brief=document.createElement('div');brief.className='v17-mobile-brief';
 brief.innerHTML='<button data-brief="projects"><span>ACTIVE PROJECT</span><strong id="v17-project">—</strong><small id="v17-project-state">Tap to develop</small></button>'+
  '<button data-brief="offices"><span>STUDIO GROWTH</span><strong id="v17-upgrade">—</strong><small id="v17-upgrade-state">Tap for requirements</small></button>';
 document.querySelector('.bottom-row')?.insertAdjacentElement('afterend',brief);
-const dollar=v=>',get current(){return active},debug(){return{registered:true,legacySheetHidden:!legacy||legacy.hidden,activeSection:active,saveWrites:0}}};
-})();+Math.max(0,Math.round(Number(v)||0)).toLocaleString('en-US');
+const dollar=v=>'$'+Math.max(0,Math.round(Number(v)||0)).toLocaleString('en-US');
 function updateBrief(){
  const s=window.StudioEmpireCareer?.read?.();
  const p=s?.project;
