@@ -23,7 +23,7 @@ async def main():
     for tier in ({390:(1,4),844:(4,),1280:(2,3)}[width]):
      context=await browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,is_mobile=width<900,has_touch=width<900)
      fixture=json.dumps(career(tier))
-     await context.add_init_script('localStorage.setItem("studio-empire-reboot-v1", '+json.dumps(fixture)+')')
+     await context.add_init_script('if(!localStorage.getItem("studio-empire-reboot-v1"))localStorage.setItem("studio-empire-reboot-v1", '+json.dumps(fixture)+')')
      page=await context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
      started=time.monotonic();response=await page.goto(URL,wait_until='domcontentloaded',timeout=60000)
      assert response and response.status==200
@@ -52,7 +52,7 @@ async def main():
    # Transaction exercised through the real purchase modal.
    context=await browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
    start=career(1);start['staff']=career(2)['staff'];start['fans']=500;start['games']=[{'title':'First Game'}];start['rep']=20;start['cash']=75000
-   await context.add_init_script('localStorage.setItem("studio-empire-reboot-v1", '+json.dumps(json.dumps(start))+')')
+   await context.add_init_script('if(!localStorage.getItem("studio-empire-reboot-v1"))localStorage.setItem("studio-empire-reboot-v1", '+json.dumps(json.dumps(start))+')')
    page=await context.new_page();page.on('dialog',lambda d:asyncio.create_task(d.accept()))
    await page.goto(URL,wait_until='domcontentloaded',timeout=60000)
    await page.wait_for_function('!!window.StudioEmpireOfficeEconomy',timeout=60000)
