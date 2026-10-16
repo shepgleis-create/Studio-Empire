@@ -217,9 +217,9 @@ sc.onBeforeRenderObservable.add(()=>{
  }
 });
 const reset=$('fit');
-reset?.addEventListener('click',e=>{if(active===1)return;e.stopImmediatePropagation();frameCamera(active);},true);
+reset?.addEventListener('click',e=>{e.stopImmediatePropagation();frameCamera(active);},true);
 for(const [id,factor] of [['zoom-in',.82],['zoom-out',1.22]]){
- $(id)?.addEventListener('click',e=>{if(active===1)return;e.stopImmediatePropagation();
+ $(id)?.addEventListener('click',e=>{e.stopImmediatePropagation();
  const h=Math.abs(cam.orthoTop-cam.orthoBottom)*factor,aspect=Math.max(.45,api.engine.getRenderWidth()/Math.max(1,api.engine.getRenderHeight()));
  cam.orthoTop=h/2;cam.orthoBottom=-h/2;cam.orthoLeft=-h*aspect/2;cam.orthoRight=h*aspect/2;
  },true);
