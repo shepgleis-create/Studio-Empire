@@ -18,7 +18,7 @@ async def run():
       await page.wait_for_function("document.body.dataset.engine==='running' && !!window.StudioEmpireCareerUI && !!window.StudioEmpireUnifiedUI",timeout=85000)
       assert await page.evaluate("window.StudioEmpire3D.debug().objectsAreMeshes"),"3D must render real meshes"
       # Create a career when this browser profile has no local save.
-      trigger="#career-mobile" if width<600 else "#career-open"
+      trigger="#se20-manage"
       # A new career begins through the fully interactive main menu.
       await page.locator("#studio19-menu").wait_for(state="visible",timeout=25000)
       await page.locator('[data-menu-action="new"]').click()
@@ -27,27 +27,31 @@ async def run():
       await page.locator('#studio19-new-form button[type="submit"]').click()
       await page.wait_for_function("document.body.dataset.engine==='running' && window.StudioEmpireCareer?.read()?.studio==='Mosaic Circuit' && !!window.StudioEmpireUnifiedUI",timeout=85000)
       nav=".mobile-nav" if width<600 else ".navpanel"
-      tests=[("staff","team"),("projects","projects"),("finances","dashboard")]
+      tests=[("team","team"),("games","projects"),("overview","dashboard")]
       for requested,expected in tests:
-        await page.locator(f'{nav} [data-panel="{requested}"]').click()
+        if width<600:
+          await page.locator(f'{nav} [data-se20-dest="{requested}"]').click()
+        else:
+          await page.locator(f'{nav} [data-se20-dest="{requested}"]').click()
         assert await page.locator("#career-hub").is_visible(),f"{requested} did not open career"
-        assert await page.locator(f'[data-career-tab="{expected}"]').get_attribute("class") and "active" in (await page.locator(f'[data-career-tab="{expected}"]').get_attribute("class")),f"{requested} wrong page"
+        assert await page.locator("body").get_attribute("data-se20-page")==expected,f"{requested} wrong page"
         assert not await page.locator("#sheet-cover").is_visible(),"Legacy read-only panel appeared"
         assert await page.evaluate("window.StudioEmpireUnifiedUI.debug().legacySheetHidden")
         await page.screenshot(path=str(OUT/f"{width}-{requested}.png"),full_page=False)
         await page.locator("#career-close").click()
       await page.locator(trigger).click()
-      await page.locator('[data-career-tab="research"]').click()
+      await page.locator('[data-se20-group="games"]').click()
+      await page.locator('[data-se20-page="research"]').click()
       assert await page.locator("#career-body button[data-research]").count()>0,"Research not actually integrated"
       assert not await page.locator("#sheet-cover").is_visible()
       await page.locator("#career-close").click()
       if width<600:
-        assert await page.locator('.v17-mobile-brief').is_visible(), 'Mobile live project cards missing'
+        assert await page.locator('.stage').is_visible(), 'Phone must prioritize the 3D scene'
         cam_height=await page.evaluate('Math.abs(window.StudioEmpire3D.camera.orthoTop-window.StudioEmpire3D.camera.orthoBottom)')
         assert cam_height>16, f'Garage camera must fit projected room width: {cam_height}'
-        await page.locator('.v17-mobile-brief [data-brief="projects"]').click()
+        await page.locator('.mobile-nav [data-se20-dest="games"]').click()
         assert await page.locator('#career-hub').is_visible()
-        assert 'active' in (await page.locator('[data-career-tab="projects"]').get_attribute('class'))
+        assert await page.locator("body").get_attribute("data-se20-page")=="projects"
         await page.locator('#career-close').click()
       await page.screenshot(path=str(OUT/f"{width}-office.png"),full_page=False)
       assert await page.evaluate("document.documentElement.scrollWidth<=innerWidth+2"),"Horizontal overflow"
