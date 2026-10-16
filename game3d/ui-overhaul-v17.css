@@ -87,3 +87,13 @@ body,.app{background:#0c0e14!important}
  .v17-mobile-brief button:active{border-color:#e58a75;background:#33272b}
 }
 @media(max-width:360px),(max-height:660px){.v17-mobile-brief{min-height:65px}.v17-mobile-brief button{padding:7px 8px}.v17-mobile-brief button span{font-size:7px;margin-bottom:5px}}
+
+/* Save import/export controls are accessible on narrow iPhones without crowding the career title. */
+#v17-import-save{background:#313843!important;color:#fff!important;border-color:#69717e!important;white-space:nowrap}
+@media(max-width:740px){
+ .career-head{flex-wrap:wrap!important;gap:8px!important}
+ .career-head>div:first-child{flex:1 1 100%!important;padding-right:44px!important}
+ .career-head-actions{width:100%!important;display:flex!important;justify-content:flex-start!important}
+ .career-head-actions #career-close{position:absolute;right:12px;top:calc(12px + env(safe-area-inset-top))!important}
+ .career-head-actions #career-export,#v17-import-save{font-size:10px!important;min-height:36px!important;padding:8px 12px!important}
+}
