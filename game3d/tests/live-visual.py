@@ -59,8 +59,10 @@ async def main():
    await page.locator('#office-buy-open').click()
    assert await page.locator('#office-purchase-confirm').is_enabled()
    await page.locator('#office-purchase-confirm').click()
-   await page.wait_for_function('window.StudioEmpireOffices?.active===2',timeout=60000)
+   await page.wait_for_timeout(2800)
    saved=await page.evaluate('JSON.parse(localStorage.getItem("studio-empire-reboot-v1"))')
+   assert saved['office']==2 and saved['cash']==35000,('purchase save not updated',saved.get('office'),saved.get('cash'))
+   await page.wait_for_function('window.StudioEmpireOffices?.active===2',timeout=20000)
    assert saved['office']==2 and saved['cash']==35000 and saved['officeHistory'][-1]['price']==40000,saved
    await context.close()
    (ROOT/'3d-browser-report.json').write_text(json.dumps(report,indent=2))
