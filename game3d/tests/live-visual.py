@@ -44,7 +44,9 @@ async def main():
         x.drawImage(can,0,0,40,40);let pix=x.getImageData(0,0,40,40).data,n=0;
         for(let i=0;i<pix.length;i+=4)if(pix[i]>110&&pix[i+1]>85&&pix[i+2]>60)n++;return n>10;
      }""",timeout=22000)
-     shot=ROOT/f'actual-3d-{width}-tier{tier}.png';await page.screenshot(path=str(shot),full_page=True)
+     await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
+      await page.locator('[data-menu-action="continue"]').click()
+      shot=ROOT/f'actual-3d-{width}-tier{tier}.png';await page.screenshot(path=str(shot),full_page=True)
      assert not errors,errors
      tierResults.append({'tier':tier,'actors':debug['actors'],'meshes':debug['meshes'],'screenshot':shot.name})
      await context.close()
