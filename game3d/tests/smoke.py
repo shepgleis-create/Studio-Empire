@@ -36,6 +36,9 @@ async def run():
                 assert await page.locator('#sheet-cover').evaluate('(e)=>e.hidden')
                 size=await page.evaluate('({scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth})')
                 assert size['scroll']<=size['client']+1, size
+                # Snapshot import must read 1975 careers and must not write the old key.
+                bridge=await page.evaluate("""() => { let writes=0;const s={studio:'Vintage Games',year:1975,cash:41000,office:1,staff:[{id:42,name:'Casey',role:'Developer'}],games:[]};const storage={getItem(){return JSON.stringify(s)},setItem(){writes++}};const v=window.StudioEmpireBridge.snapshot(storage);return {year:v.year,name:v.studio,staff:v.staff.length,writes};}""")
+                assert bridge=={'year':1975,'name':'Vintage Games','staff':1,'writes':0},bridge
                 if state=='running':
                     debug=await page.evaluate('window.StudioEmpire3D.debug()')
                     assert debug['objectsAreMeshes'] and debug['cameraMode']==1
