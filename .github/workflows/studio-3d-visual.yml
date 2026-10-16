@@ -1,0 +1,37 @@
+name: Studio Empire 3D Visual Smoke
+on:
+  push:
+    branches: [feature/3d-engine-foundation]
+    paths:
+      - 'game3d/**'
+      - '.github/workflows/studio-3d-visual.yml'
+  workflow_dispatch:
+jobs:
+  browser-3d:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install browser and test runner
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Launch local project
+        run: |
+          python -m http.server 8765 --directory . > /tmp/studio-http.log 2>&1 &
+          sleep 3
+      - name: Run actual WebGL 3D integration checks
+        run: python game3d/tests/live-visual.py http://127.0.0.1:8765/game3d/
+      - name: Upload actual gameplay screenshots and test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-3d-real-browser-screenshots
+          path: |
+            game3d/actual-3d-*.png
+            game3d/3d-browser-report.json
+          if-no-files-found: warn
