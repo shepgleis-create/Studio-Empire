@@ -2,6 +2,8 @@ name: Studio Empire 3D Career Regression
 on:
   push:
     branches: [feature/3d-engine-foundation]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 jobs:
   career-and-webgl:
@@ -13,7 +15,7 @@ jobs:
         with:
           node-version: 22
       - name: Verify career simulation and safe saves
-        run: node --test tests/career.test.mjs
+        run: node --test tests/career.test.mjs tests/validate-shell.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
