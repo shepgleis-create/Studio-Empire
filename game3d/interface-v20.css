@@ -131,3 +131,27 @@ body,.app,body.studio-concept-hud{background:#0e1217!important;color:#f6f3ee!imp
 @media(max-width:365px){.topbar .stats>div:nth-child(2){display:none!important}#career-hub .career-head h2{font-size:15px!important}}
 @media(prefers-reduced-motion:reduce){#career-hub .career-shell,.se20-page-in{animation:none!important}#se20-navigation button{transition:none!important}}
 body.studio19-no-motion #career-hub .career-shell,body.studio19-no-motion .se20-page-in{animation:none!important}
+
+/* v0.20 phone screenshot correction: header cannot contain five stats AND simulation controls. */
+@media(max-width:740px){
+ .topbar{display:flex!important;align-items:center!important;gap:7px!important;overflow:visible!important}
+ .topbar .identity{min-width:0!important;width:137px!important;max-width:137px!important;flex:0 0 137px!important;gap:6px!important}
+ .topbar .identity-mark{width:30px!important;height:34px!important;flex:0 0 30px!important;font-size:17px!important;padding:0!important}
+ .topbar .identity b{font-size:12px!important;line-height:1.04!important;letter-spacing:0!important;white-space:normal!important}
+ .topbar .identity small{display:none!important}
+ .topbar .stats{margin-left:auto!important;display:flex!important;gap:0!important;min-width:0!important;flex:0 1 auto!important;overflow:hidden!important}
+ .topbar .stats>div{display:none!important}
+ .topbar .stats>div:nth-child(2){display:flex!important;min-width:0!important;padding:0 4px!important;border-left:1px solid #ffffff20!important}
+ .topbar .stats strong{font-size:11px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ .topbar .stats small{font-size:8px!important}
+ .topbar .studio19-menu-toggle{margin-left:0!important;flex:0 0 auto!important;min-height:34px!important;padding:8px!important;font-size:11px!important}
+ .topbar .times{position:fixed!important;top:auto!important;right:10px!important;bottom:calc(75px + env(safe-area-inset-bottom))!important;z-index:25!important;display:flex!important;gap:5px!important;margin:0!important;padding:5px!important;border:1px solid #ffffff28!important;background:#131b24e5!important;border-radius:10px!important;backdrop-filter:none!important;box-shadow:0 6px 16px #0005!important}
+ .topbar .times>span{display:none!important}
+ .topbar .times button{min-height:33px!important;padding:8px 10px!important;background:#26303a!important;color:#ede7df!important;border-color:#ffffff20!important;font-size:10px!important;border-radius:7px!important}
+ .scene-header>.eyebrow,.scene-header .eyebrow{display:none!important}
+}
+@media(max-width:350px){
+ .topbar .identity{width:118px!important;max-width:118px!important;flex-basis:118px!important}
+ .topbar .stats>div:nth-child(2){padding:0 2px!important}
+ .topbar .studio19-menu-toggle{padding:7px!important}
+}
