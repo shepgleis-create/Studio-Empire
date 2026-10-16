@@ -56,7 +56,7 @@ for(const [x,z] of [[4.5,4],[-4.7,3.65]]){cylinder('terracotta planter',.52,.48,
 for(let i=0;i<5;i++){const x=3.55+(i%2)*.6,z=3.15+Math.floor(i/2)*.55;box('moving carton '+i,.49,.34+i*.1,.45,x,.17+i*.05,z,mat.concrete)}
 box('floor tool chest',.65,.64,.50,-4.75,.35,.6,mat.rug,null,'Tools & equipment');for(let i=0;i<3;i++)box('drawer '+i,.51,.11,.025,-4.75,.24+i*.15,.86,mat.steel);
 collision.push({x:3.95,z:-2.75,r:.77},{x:-4.10,z:-2.25,r:.85},{x:-4.15,z:2,r:.65},{x:4.2,z:2.4,r:.65});
-const camera=new B.ArcRotateCamera('isometric overview',-Math.PI/4,1.05,19,V(0,1,0),scene);camera.mode=B.Camera.ORTHOGRAPHIC_CAMERA;camera.minZ=.1;camera.maxZ=100;scene.activeCamera=camera;let zoom=13;let camTarget=V(0,1.3,.0);
+const camera=new B.ArcRotateCamera('isometric overview',Math.PI/4,1.05,19,V(0,1,0),scene);camera.mode=B.Camera.ORTHOGRAPHIC_CAMERA;camera.minZ=.1;camera.maxZ=100;scene.activeCamera=camera;let zoom=13;let camTarget=V(0,1.3,.0);
 function fit(){const ratio=Math.max(.35,engine.getRenderWidth()/Math.max(1,engine.getRenderHeight()));zoom=Math.min(32,Math.max(12.8,15.5/ratio));camTarget=V(0,1.2,.0);updateCamera();}function updateCamera(){const aspect=Math.max(.45,engine.getRenderWidth()/Math.max(1,engine.getRenderHeight()));camera.orthoTop=zoom*.5;camera.orthoBottom=-zoom*.5;camera.orthoLeft=-zoom*aspect*.5;camera.orthoRight=zoom*aspect*.5;camera.setTarget(camTarget);camera.radius=19;}
 function changeZoom(f){zoom=Math.min(32,Math.max(7,zoom*f));updateCamera();}fit();
 // Scene pick metadata is attached only to legitimate 3D geometry.
