@@ -52,6 +52,15 @@ async def run():
         await page.locator('#career-close').click()
       await page.screenshot(path=str(OUT/f"{width}-office.png"),full_page=False)
       assert await page.evaluate("document.documentElement.scrollWidth<=innerWidth+2"),"Horizontal overflow"
+      # A cross-domain backup import must be explicitly approved and preserve saved fields.
+      await page.locator(trigger).click()
+      assert await page.locator('#v17-import-save').is_visible(), 'Import action missing'
+      import_json=await page.evaluate('JSON.stringify(window.StudioEmpireCareer.read())')
+      page.once('dialog',lambda dialog:asyncio.create_task(dialog.accept()))
+      await page.locator('#v17-import-picker').set_input_files({'name':'career.json','mimeType':'application/json','buffer':import_json.encode()})
+      await page.wait_for_function("document.body.dataset.engine==='running' && !!window.StudioEmpireSaveImport",timeout=85000)
+      assert await page.evaluate("window.StudioEmpireCareer.read().studio==='Mosaic Circuit'"),'Import corrupted career'
+      assert await page.evaluate("!!localStorage.getItem(window.StudioEmpireCareer.BACKUP)"),'Backup missing'
       assert not errors,"; ".join(errors)
       reports.append({"width":width,"engine":"running","nav":tests,"legacyModalHidden":True,"researchButtons":True,"errors":errors})
       await context.close()
