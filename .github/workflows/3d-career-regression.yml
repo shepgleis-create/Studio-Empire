@@ -14,6 +14,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Validate browser JavaScript syntax before running WebGL
+        run: |
+          node --check game3d/ui-overhaul-v17.js
+          node --check game3d/save-import-v17.js
+          node --check game3d/materials-v17.js
+          node --check game3d/office-progression.js
       - name: Verify career simulation and safe saves
         run: node --test tests/career.test.mjs tests/validate-shell.mjs
       - uses: actions/setup-python@v5
