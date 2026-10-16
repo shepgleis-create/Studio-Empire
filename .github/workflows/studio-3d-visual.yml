@@ -31,6 +31,8 @@ jobs:
           sleep 3
       - name: Run actual WebGL 3D integration checks
         run: python game3d/tests/live-visual.py http://127.0.0.1:8765/game3d/
+      - name: Verify garage camera, door openings, Retina rendering and take additional shots
+        run: python game3d/tests/visual_browser_v2.py
       - name: Upload actual gameplay screenshots and test report
         if: always()
         uses: actions/upload-artifact@v4
@@ -39,4 +41,5 @@ jobs:
           path: |
             game3d/actual-3d-*.png
             game3d/3d-browser-report.json
+            game3d/tests/actual-proof/*.png
           if-no-files-found: warn
