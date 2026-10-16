@@ -171,8 +171,12 @@ function building(level){
  g.setEnabled(false);const r={root:g,figures};scenes.set(level,r);return r;
 }
 function frameCamera(tier){
- const heights=[15,22,34,47],height=heights[tier-1];
  const aspect=Math.max(.45,api.engine.getRenderWidth()/Math.max(1,api.engine.getRenderHeight()));
+ // Fit the *projected* isometric room rather than a fixed height across devices.
+ // Wide desktop gets close, portrait phone steps back enough to show the full HQ.
+ const [w,d]=specs[tier-1].size;
+ const projectedWidth=(w+d)*.72+2,projectedHeight=(w+d)*.37+4;
+ const height=tier===1?15:Math.max(projectedHeight/.92,projectedWidth/(aspect*.90));
  cam.setTarget(new B.Vector3(0,1.0,0));cam.orthoTop=height/2;cam.orthoBottom=-height/2;
  cam.orthoLeft=-height*aspect/2;cam.orthoRight=height*aspect/2;
  cam.radius=[19,26,40,54][tier-1];
@@ -187,6 +191,7 @@ function selectTier(t){
  document.querySelectorAll('[data-office-tier]').forEach(el=>{el.classList.toggle('selected-tier',Number(el.dataset.officeTier)===t);el.setAttribute('aria-pressed',String(Number(el.dataset.officeTier)===t));});
  const status=$('tour-status');if(status)status.textContent=t===1?'LIVE CAREER · GARAGE':'3D ARCHITECTURE TOUR · NOT PURCHASED';
  const label=$('tour-label');if(label)label.textContent=specs[t-1].name.toUpperCase();
+ const staffCount=$('workplace-label');if(staffCount)staffCount.textContent=t===1?'1 FOUNDER · GARAGE WORKSTATIONS':((t===2?4:t===3?10:20)+' ANIMATED TOUR FIGURES · '+(t===2?6:t===3?14:24)+' WORKSTATIONS');
  const detail=$('tour-detail');if(detail)detail.textContent=t===1?'One founder, one garage':specs[t-1].desc+' · $'+specs[t-1].cost.toLocaleString()+' to unlock in future integrated gameplay';
  return true;
 }
