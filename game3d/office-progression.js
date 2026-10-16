@@ -38,7 +38,7 @@ const shapeCache=new Map();
 function cube(parent,id,w,h,d,x,y,z,m,label){
  // Repeated desks, windows, racks and furniture share GPU geometry within a room.
  // Instancing preserves individual positions and pick metadata.
- const key=parent.name+'|'+w+'|'+h+'|'+d+'|'+m.name;
+ const key=parent.uniqueId+'|'+w+'|'+h+'|'+d+'|'+m.name;
  let proto=shapeCache.get(key);
  const q=proto?proto.createInstance(id):B.MeshBuilder.CreateBox(id,{width:w,height:h,depth:d},sc);
  if(!proto)shapeCache.set(key,q);
