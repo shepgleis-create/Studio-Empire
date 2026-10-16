@@ -34,9 +34,16 @@ const mat={
  glass:material('glass','#98CBD6',.32),paper:material('paper','#E9DBBC'),
  equipment:material('equipment','#182C3A')
 };
+const shapeCache=new Map();
 function cube(parent,id,w,h,d,x,y,z,m,label){
- const q=B.MeshBuilder.CreateBox(id,{width:w,height:h,depth:d},sc);
- q.position.set(x,y,z);q.material=m;q.parent=parent;q.isPickable=!!label;
+ // Repeated desks, windows, racks and furniture share GPU geometry within a room.
+ // Instancing preserves individual positions and pick metadata.
+ const key=parent.name+'|'+w+'|'+h+'|'+d+'|'+m.name;
+ let proto=shapeCache.get(key);
+ const q=proto?proto.createInstance(id):B.MeshBuilder.CreateBox(id,{width:w,height:h,depth:d},sc);
+ if(!proto)shapeCache.set(key,q);
+ q.position.set(x,y,z);if(!proto)q.material=m;
+ q.parent=parent;q.isPickable=!!label;
  if(label)q.metadata={label,kind:'3D office object'};return q;
 }
 function cylinder(parent,id,diam,h,x,y,z,m){
