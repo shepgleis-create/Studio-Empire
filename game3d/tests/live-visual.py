@@ -27,7 +27,8 @@ async def main():
                 ready_ms=round((time.monotonic()-started)*1000)
                 debug=await page.evaluate('window.StudioEmpire3D.debug()')
                 assert debug['engine']=='Babylon.js' and debug['objectsAreMeshes'] and debug['engineReady'],debug
-                assert debug['meshes']>=80 and len(debug['staff'])>=3,debug
+                assert debug['meshes']>=80 and len(debug['staff'])>=1,debug
+                assert await page.evaluate('window.StudioEmpireBridge.snapshot().staff.length >= 1'), 'No founder/employee'
                 before=await page.evaluate("({zoom:window.StudioEmpire3D.camera.orthoTop,target:window.StudioEmpire3D.camera.target.x})")
                 await page.locator('#zoom-in').click();await page.wait_for_timeout(300)
                 after=await page.evaluate("window.StudioEmpire3D.camera.orthoTop")
@@ -39,10 +40,23 @@ async def main():
                     await page.mouse.move(box['x']+box['width']*.47,box['y']+box['height']*.52)
                     await page.mouse.down();await page.mouse.move(box['x']+box['width']*.55,box['y']+box['height']*.58,steps=8);await page.mouse.up()
                 await page.wait_for_timeout(1200)
+                assert await page.evaluate('Boolean(window.StudioEmpireOffices)'), 'Office progression failed to load'
+                tier_results=[]
+                for tier in (2,3,4):
+                    await page.locator(f'[data-office-tier="{tier}"]').click()
+                    await page.wait_for_timeout(500)
+                    state=await page.evaluate('window.StudioEmpireOffices.debug()')
+                    assert state['tier']==tier and state['previewOnly'] and state['writesToCareer']==0,state
+                    assert state['actors']>0 and state['meshes']>debug['meshes'],state
+                    shot=ROOT/f'actual-3d-{width}-tier{tier}.png'
+                    await page.screenshot(path=str(shot),full_page=True)
+                    tier_results.append({'tier':tier,'actors':state['actors'],'meshes':state['meshes']})
+                await page.locator('[data-office-tier="1"]').click()
+                assert await page.evaluate('window.StudioEmpireOffices.debug().tier===1')
                 screenshot=ROOT/f'actual-3d-{width}.png'
                 await page.screenshot(path=str(screenshot),full_page=True)
                 assert not errors,errors
-                report['results'].append({'width':width,'height':height,'real3d':True,'meshes':debug['meshes'],'staff':len(debug['staff']),'ready_ms':ready_ms,'screenshot':str(screenshot.name)})
+                report['results'].append({'width':width,'height':height,'real3d':True,'meshes':debug['meshes'],'staff':len(debug['staff']),'ready_ms':ready_ms,'office_tiers':tier_results,'screenshot':str(screenshot.name)})
                 await context.close()
             (ROOT/'3d-browser-report.json').write_text(json.dumps(report,indent=2))
             print(json.dumps(report,indent=2))
