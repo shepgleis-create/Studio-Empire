@@ -47,6 +47,21 @@ async def main():
                 for tier in (2,3,4):
                     await page.locator(f'[data-office-tier="{tier}"]').click()
                     await page.wait_for_timeout(500)
+                    # The scene must contain visible illuminated office pixels.
+                    # Engine readiness alone used to pass while the HQ was blank.
+                    await page.wait_for_function("""() => {
+                        const src=document.querySelector('#renderCanvas');
+                        if(!src||!src.width||!src.height)return false;
+                        const tmp=document.createElement('canvas');
+                        tmp.width=40;tmp.height=40;
+                        const ctx=tmp.getContext('2d',{willReadFrequently:true});
+                        ctx.drawImage(src,0,0,40,40);
+                        const px=ctx.getImageData(0,0,40,40).data;
+                        let lit=0;
+                        for(let i=0;i<px.length;i+=4)
+                            if(px[i]>110&&px[i+1]>85&&px[i+2]>60)lit++;
+                        return lit>12;
+                    }""",timeout=25000)
                     state=await page.evaluate('window.StudioEmpireOffices.debug()')
                     assert state['tier']==tier and state['previewOnly'] and state['writesToCareer']==0,state
                     assert state['actors']>0 and state['meshes']>debug['meshes'],state
