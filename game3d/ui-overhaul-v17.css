@@ -76,3 +76,14 @@ body,.app{background:#0c0e14!important}
 }
 @media(max-width:370px){.career-fields{grid-template-columns:1fr!important}}
 @media(prefers-reduced-motion:reduce){.career-hub *, .career-progress i{transition:none!important;animation:none!important}}
+/* Live mobile brief — purpose-built replacement for old decorative/fake dashboard cards. */
+.v17-mobile-brief{display:none}
+@media(max-width:740px){
+ .v17-mobile-brief{display:grid;grid-template-columns:1fr 1fr;gap:6px;min-height:77px;flex:0 0 auto}
+ .v17-mobile-brief button{background:#1c232e;border:1px solid #454b59;border-radius:9px;padding:10px 11px;text-align:left;min-width:0;color:#f2f2f4}
+ .v17-mobile-brief button span{display:block;color:#df9f90;font-size:8px;font-weight:850;letter-spacing:.11em;margin-bottom:7px}
+ .v17-mobile-brief button strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+ .v17-mobile-brief button small{display:block;color:#afb6c3;font-size:9px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .v17-mobile-brief button:active{border-color:#e58a75;background:#33272b}
+}
+@media(max-width:360px),(max-height:660px){.v17-mobile-brief{min-height:65px}.v17-mobile-brief button{padding:7px 8px}.v17-mobile-brief button span{font-size:7px;margin-bottom:5px}}
