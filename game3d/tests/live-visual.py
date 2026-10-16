@@ -20,7 +20,7 @@ async def main():
   try:
    for width,height in SIZES:
     tierResults=[]
-    for tier in (1,2,3,4):
+    for tier in ({390:(1,4),844:(4,),1280:(2,3)}[width]):
      context=await browser.new_context(viewport={'width':width,'height':height},device_scale_factor=1,is_mobile=width<900,has_touch=width<900)
      fixture=json.dumps(career(tier))
      await context.add_init_script('localStorage.setItem("studio-empire-reboot-v1", '+json.dumps(fixture)+')')
