@@ -67,7 +67,7 @@ byId('office-buy-open')?.addEventListener('click',open);
 if(officeCard)officeCard.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();open()},true);
 byId('office-purchase-confirm').onclick=()=>{
  const tier=Number(byId('office-purchase-confirm').dataset.tier),t=TIERS[tier-1];if(!t)return;
- if(!global.confirm('Pay '+money(t.cost)+' to move into '+t.name+'? Your saved cash will be deducted and monthly overhead will increase.'))return;
+ // The user already explicitly approved the exact price in the purchase dialog.
  const result=purchase(tier);if(!result.ok){open();if(['SAVE_ERROR','SAVE_VERIFY_FAILED'].includes(result.reason))global.alert('Could not verify the save; purchase not confirmed.');return}
  global.location.reload();
 };
