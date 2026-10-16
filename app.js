@@ -121,6 +121,8 @@ function startGame(form){
  const old=state;state=initial();state.officeVersion=2;state.year=year;state.startYear=year;state.studio=name;state.founder=founder;state.difficulty=difficulty;
  const era=1+Math.max(0,year-1980)*.021;state.cash=Math.round(75000*DIFFICULTIES[difficulty].cash*era);
  state.staff[0].name=founder;
+ // New careers start with the founder alone, then grow through hiring.
+ state.staff=state.staff.slice(0,1);
  normalizeEmpire();state.history=[{date:date(),text:founder+' founded '+name+' on '+DIFFICULTIES[difficulty].label+' difficulty.'}];
  state.pauses=false;save();refreshHUD();closePanel();centerCamera(true);hideMainMenu();toast('Founded '+name+' · '+year+'.');
 }
@@ -161,6 +163,14 @@ function treat(){if(!pay(1750))return;state.staff.forEach(p=>{p.morale=clamp(p.m
 function research(id){let t=TECH.find(x=>x.id===id);if(!t||state.technologies.includes(id)||t.year>state.year||(t.requires||[]).some(dep=>!state.technologies.includes(dep)))return;if(state.rp<t.cost){toast('You need more research points.');return;}state.rp-=t.cost;state.technologies.push(id);log('Researched '+t.name+'.');feed('<b>RESEARCH UNLOCKED</b> '+t.name);refreshHUD();save();openPanel('research');}
 function upgradeEngine(){if(!state.technologies.includes('fundamentals')){toast('Research Production Planning first.');return;}const cost=state.engine*17000;if(!pay(cost))return;state.engine++;log('Built proprietary engine version '+state.engine+'.');feed('<b>ENGINE UPGRADE</b> Improved game development tools.');refreshHUD();save();openPanel('research');}
 function expand(){if(state.office>=4){toast('You already own the largest campus.');return;}
+ const requirements=[null,{staff:3,games:1,fans:400,rep:15,year:1975},{staff:5,games:3,fans:3000,rep:25,year:1990},{staff:10,games:8,fans:25000,rep:55,year:2010}][state.office];
+ const missing=[];
+ if(state.staff.length<requirements.staff)missing.push(requirements.staff+' employees');
+ if(state.games.length<requirements.games)missing.push(requirements.games+' published games');
+ if(state.fans<requirements.fans)missing.push(requirements.fans+' fans');
+ if(state.rep<requirements.rep)missing.push(requirements.rep+' reputation');
+ if(state.year<requirements.year)missing.push('year '+requirements.year);
+ if(missing.length){toast('Office locked. Need '+missing.join(', ')+'.');return;}
  const cost=floorCost();if(!pay(cost))return;state.office++;
  state.officeHistory=Array.isArray(state.officeHistory)?state.officeHistory:[];
  state.officeHistory.push({office:state.office,price:cost,date:date()});
