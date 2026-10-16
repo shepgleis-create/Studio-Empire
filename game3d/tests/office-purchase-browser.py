@@ -17,7 +17,7 @@ with sync_playwright() as p:
   page=ctx.new_page()
   if save:
    payload=json.dumps(save)
-   page.add_init_script('() => localStorage.setItem(\"studio-empire-reboot-v1\", '+json.dumps(payload)+')')
+   page.add_init_script('() => {if(!localStorage.getItem("studio-empire-reboot-v1")) localStorage.setItem(\"studio-empire-reboot-v1\", '+json.dumps(payload)+')}}')
   errors=[]
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(url,wait_until='domcontentloaded',timeout=60000)
