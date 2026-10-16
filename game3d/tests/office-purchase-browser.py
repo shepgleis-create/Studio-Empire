@@ -17,12 +17,12 @@ with sync_playwright() as p:
   page=ctx.new_page()
   if save:
    payload=json.dumps(save)
-   page.add_init_script('if(!localStorage.getItem("studio-empire-reboot-v1")) localStorage.setItem(\"studio-empire-reboot-v1\", '+json.dumps(payload)+')')
+   page.add_init_script('if(!localStorage.getItem("studio-empire-reboot-v1")) localStorage.setItem("studio-empire-reboot-v1", '+json.dumps(payload)+')')
   errors=[]
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(url,wait_until='domcontentloaded',timeout=60000)
-  page.wait_for_function(\"document.body.dataset.engine==='running' || document.body.dataset.engine==='unavailable'\",timeout=60000)
-  assert page.evaluate(\"document.body.dataset.engine\")=='running',f'Babylon engine failed: {errors}'
+  page.wait_for_function("document.body.dataset.engine==='running' || document.body.dataset.engine==='unavailable'",timeout=60000)
+  assert page.evaluate("document.body.dataset.engine")=='running',f'Babylon engine failed: {errors}'
   page.wait_for_function('!!window.StudioEmpireOfficeEconomy && !!window.StudioEmpireOffices',timeout=15000)
   return ctx,page,errors
  # No-career demo: single founder and strictly locked previews.
@@ -42,7 +42,7 @@ with sync_playwright() as p:
  pg.on('dialog',lambda dialog:dialog.accept())
  pg.locator('#office-purchase-confirm').click()
  pg.wait_for_function('window.StudioEmpireOffices.active===2',timeout=60000)
- saved=pg.evaluate('JSON.parse(localStorage.getItem(\"studio-empire-reboot-v1\"))')
+ saved=pg.evaluate('JSON.parse(localStorage.getItem("studio-empire-reboot-v1"))')
  assert saved['office']==2 and saved['cash']==35000,(saved['office'],saved['cash'])
  assert saved['officeHistory'][-1]['price']==40000
  assert pg.locator('.owned-step.current').count()==1
