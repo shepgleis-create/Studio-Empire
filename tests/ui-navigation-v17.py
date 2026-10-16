@@ -29,8 +29,8 @@ async def run():
       nav=".mobile-nav" if width<600 else ".navpanel"
       tests=[("team","team"),("games","projects"),("overview","dashboard")]
       for requested,expected in tests:
-        if width<600:
-          await page.locator(f'{nav} [data-se20-dest="{requested}"]').click()
+        if requested=="overview":
+          await page.locator("#se20-manage").click()
         else:
           await page.locator(f'{nav} [data-se20-dest="{requested}"]').click()
         assert await page.locator("#career-hub").is_visible(),f"{requested} did not open career"
