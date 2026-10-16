@@ -47,7 +47,7 @@ if(career)office3d.selectTier(current);
 const bar=document.querySelector('.office-stage-switch');
 if(bar){bar.classList.add('owned-office-track');bar.innerHTML='<b>OFFICE PROGRESSION</b>'+TIERS.map(t=>'<span class="owned-step '+(t.tier===current?'current':t.tier<current?'owned':'locked')+'">'+(t.tier===current?'◆ ':t.tier<current?'✓ ':'🔒 ')+t.tier+' '+esc(t.name)+'</span>').join('')+(current<4?'<button type="button" id="office-buy-open">UPGRADE ↗</button>':'<strong>MAX LEVEL</strong>')}
 const status=byId('tour-status');if(status)status.textContent=career?'PURCHASED OFFICE · REAL CAREER':'CAREER REQUIRED';
-const goal=byId('tour-detail');if(goal)goal.textContent=career?(current===4?'Maximum office purchased':('Next: '+TIERS[current].name+' · '+money(TIERS[current].cost))):'Start a career in the original game to purchase offices';
+const goal=byId('tour-detail');if(goal)goal.textContent=career?(current===4?'Maximum office purchased':('Next: '+TIERS[current].name+' · '+money(TIERS[current].cost))):'Tap MANAGE STUDIO to create a career, then earn your office upgrades';
 const small=document.querySelector('.concept-goals small');if(small)small.textContent='Earn upgrades · No free office tours';
 const officeCard=document.querySelector('.concept-snapshot [data-open="studio"]');
 if(officeCard){const b=officeCard.querySelector('b'),sm=officeCard.querySelector('small');if(b)b.textContent='OWNED LEVEL '+current+'/4';if(sm)sm.textContent=current<4?'Next office '+money(TIERS[current].cost):'Global headquarters owned'}
