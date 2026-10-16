@@ -41,6 +41,9 @@ async def main():
       assert await page.evaluate('window.StudioEmpireCareer.read().project?.ready'), 'Project was not completed'
       await page.locator('[data-do="release"]').first.click()
       await page.wait_for_function("document.body.dataset.engine === 'running' && !!window.StudioEmpireCareerUI && window.StudioEmpireCareer.read()?.games?.length===1",timeout=70000)
+      # Normal relaunch opens the actual main menu; continue the saved career.
+      await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
+      await page.locator('[data-menu-action="continue"]').click()
       await page.locator(launch).click()
       await page.locator('[data-career-tab="dashboard"]').click()
       await page.screenshot(path=str(OUT/f'{width}-career-management.png'))
