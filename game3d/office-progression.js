@@ -151,7 +151,7 @@ function building(level){
   for(let i=0;i<8;i++)light(g,-10+(i%4)*7,-8+(i%2)*11);
   sign(g,'GLOBAL HQ',-10,-d/2+.12);
  }
- const figures=[];const count=level===2?4:level===3?10:20;
+ const figures=[];const count=Math.min(career.staff.length,level===2?6:level===3?12:24);
  for(let i=0;i<count;i++){
   const p=workspots[i%workspots.length];
   const pivot=new B.TransformNode('3D visitor '+i,sc);pivot.parent=g;pivot.position.set(p[0],0,p[1]+1.0);
@@ -183,6 +183,10 @@ function frameCamera(tier){
 }
 function selectTier(t){
  t=Number(t);if(!Number.isInteger(t)||t<1||t>4)return false;
+ // Never expose a 3D office the player hasn't bought.
+ const saved=window.StudioEmpireOfficeEconomy?.read?.();
+ const owned=saved?.office||career.office||1;
+ if(t!==owned)return false;
  baseMeshes.forEach(x=>x.setEnabled(t===1));
  baseStaff.forEach(x=>x.setEnabled(t===1));
  scenes.forEach(x=>x.root.setEnabled(false));
@@ -214,7 +218,7 @@ function hud(){
  if(time&&top)top.insertBefore(time,top.querySelector('.old-game'));
 }
 function escape(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-hud();selectTier(1);
+hud();selectTier(career.office||1);
 let last=0;
 sc.onBeforeRenderObservable.add(()=>{
  if(active===1)return;
@@ -237,5 +241,5 @@ for(const [id,factor] of [['zoom-in',.82],['zoom-out',1.22]]){
  },true);
 }
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(()=>{if(active>1)frameCamera(active);}).observe($('stage'));
-window.StudioEmpireOffices={selectTier,get active(){return active;},get levels(){return specs.map(x=>({...x}));},debug(){return{tier:active,meshes:sc.meshes.length,actors:active===1?api.staff.length:scenes.get(active)?.figures.length,previewOnly:active!==1,writesToCareer:0}}};
+window.StudioEmpireOffices={selectTier,get active(){return active;},get levels(){return specs.map(x=>({...x}));},debug(){return{tier:active,meshes:sc.meshes.length,actors:active===1?api.staff.length:scenes.get(active)?.figures.length,previewOnly:false,writesToCareer:0}}};
 })();
