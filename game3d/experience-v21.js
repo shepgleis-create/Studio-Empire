@@ -30,8 +30,12 @@ const tile=$('.concept-snapshot [data-open="finances"] b');if(tile)tile.textCont
 function onTick(e){if(e.type==='speed'){store();paint();return;}
 if(e.type==='release')alertMessage('Released '+e.game.name+' · '+e.game.score+'/100');
 if(e.type==='week'&&e.state){if(e.week!==latestWeek){latestWeek=e.week;refreshHeader();}
-const hub=$('#career-hub');if(hub&&!hub.hidden){const f=document.activeElement,editing=f&&f.matches('input,select,textarea,[contenteditable="true"]');
-if(!editing){window.StudioEmpireCareerUI?.render();if(window.StudioEmpireIndustryUI?.active)window.StudioEmpireIndustryUI.render();}}
+const hub=$('#career-hub');if(hub&&!hub.hidden){
+ const s=e.state,metrics=hub.querySelectorAll('.career-metric b');
+ if(metrics.length>=5){metrics[0].textContent=money(s.cash);metrics[1].textContent=(s.fans||0).toLocaleString();metrics[2].textContent=Math.round(s.rep||0)+'/100';metrics[3].textContent='TIER '+s.office;metrics[4].textContent=s.staff.length;}
+ const status=hub.querySelector('#career-message');if(status)status.textContent='Live simulation · Week '+s.weekNumber+' · Switch sections for refreshed results.';
+ // Never replace active forms or reset a scrolled management page on a clock tick.
+}
 }
 if(e.type==='blocked')alertMessage('Simulation stopped: '+String(e.reason).replaceAll('_',' ').toLowerCase());paint();}
 function paint(){const s=clock.status();holder.dataset.paused=String(s.speed===0||!s.active);
