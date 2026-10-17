@@ -1,0 +1,23 @@
+/* Studio Empire 3D: phone viewport correction, no rendered artwork substitutes. */
+@media (max-width:740px) and (orientation:portrait){
+  .viewport-shell{min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
+  .viewport-shell::-webkit-scrollbar{display:none}
+  .scene-header{min-height:39px}
+  .scene-header h1{line-height:1.1}
+  .stage{flex:0 0 auto;height:min(58dvh,510px);min-height:330px}
+  .bottom-row{flex:none}
+  .viewport-overlay.bottom{font-size:7px}
+}
+@media (min-width:741px) and (max-height:540px){
+  .topbar{height:47px;padding:0 10px}
+  .identity{min-width:140px}
+  .identity small,.navpanel,.inspector,.old-game,.bottom-row{display:none}
+  .workspace{display:flex;min-height:0}
+  .viewport-shell{width:100%;padding:3px 7px;gap:3px}
+  .scene-header{min-height:32px}
+  .scene-header h1{font-size:13px;margin-top:2px}
+  .stage{flex:1;min-height:0}
+  .mobile-nav{display:flex;height:48px}
+  .mobile-nav button{font-size:9px}
+  .camera-tools{top:34px}
+}

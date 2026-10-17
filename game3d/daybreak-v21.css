@@ -1,0 +1,55 @@
+/* Studio Empire v0.21 — light Daybreak theme and persistent simulation toolbar */
+body[data-studio19-theme="daybreak"]{--s19-bg:#dbe7ed;--s19-surface:#f4f9fb;--s19-raised:#e5f0f4;--s19-muted:#577181;--s19-line:#20455a24;--s19-ink:#203b50;--s19-accent:#147e95;--s19-accent-dim:#0e687e;--s19-gold:#d58a44;--s19-glow:#2f9fb026;--ui-accent:#147e95;--ui-bg:#dbe7ed;--ui-panel:#f4f9fb;--ui-text:#203b50;color-scheme:light}
+body[data-studio19-theme="daybreak"],body[data-studio19-theme="daybreak"] .app{background:linear-gradient(155deg,#e6f1f5,#d1e2e9 70%,#bed4de)!important;color:#203b50!important}
+body[data-studio19-theme="daybreak"] .topbar{background:#203d50!important;border-color:#587686!important}
+body[data-studio19-theme="daybreak"] .identity b,body[data-studio19-theme="daybreak"] .topbar .stats strong{color:#f5fafc!important}
+body[data-studio19-theme="daybreak"] .identity em{color:#eeb77e!important}
+body[data-studio19-theme="daybreak"] .topbar .stats small{color:#b9d3db!important}
+body[data-studio19-theme="daybreak"] .identity-mark{background:#efa75f!important;color:#203d50!important}
+body[data-studio19-theme="daybreak"] .navpanel,body[data-studio19-theme="daybreak"] .inspector,body[data-studio19-theme="daybreak"] .mobile-nav{background:#edf5f8!important;border-color:#afc8d2!important;color:#294457!important}
+body[data-studio19-theme="daybreak"] .navpanel h2,body[data-studio19-theme="daybreak"] .scene-header h1{color:#294456!important}
+body[data-studio19-theme="daybreak"] .navpanel .studio20-side-link,body[data-studio19-theme="daybreak"] .mobile-nav button{color:#355667!important}
+body[data-studio19-theme="daybreak"] .navpanel .studio20-side-link.active,body[data-studio19-theme="daybreak"] .mobile-nav button.active{background:#c7e3e9!important;color:#0d6e83!important;border-color:#85b9c5!important}
+body[data-studio19-theme="daybreak"] .stage{background:radial-gradient(ellipse at 55% 45%,#c6dce3,#9fbecb 65%,#7f9faf)!important;border-color:#97b6c3!important;box-shadow:0 9px 24px #28586b2b!important}
+body[data-studio19-theme="daybreak"] .viewport-overlay.top span,body[data-studio19-theme="daybreak"] .viewport-overlay.bottom{color:#284959!important}
+body[data-studio19-theme="daybreak"] .camera-tools button{background:#f3f8fae8!important;border-color:#a7c2cd!important;color:#204b5b!important}
+body[data-studio19-theme="daybreak"] #studio20-manage,body[data-studio19-theme="daybreak"] .studio19-menu-toggle,body[data-studio19-theme="daybreak"] #se21-options{background:#f2f9fb!important;color:#254657!important;border:1px solid #aec8d2!important}
+body[data-studio19-theme="daybreak"] .owned-step{background:#f5fafb!important;color:#526f7d!important;border-color:#b6d0da!important}
+body[data-studio19-theme="daybreak"] .owned-step.current{background:#c6e5e7!important;color:#16566b!important;border-color:#6fb0bf!important}
+body[data-studio19-theme="daybreak"] .bottom-row,body[data-studio19-theme="daybreak"] .concept-snapshot>button,body[data-studio19-theme="daybreak"] .v17-mobile-brief{background:#f5f9fb!important;color:#214252!important;border-color:#bacfd9!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-backdrop{background:#16334499!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-shell{background:#eaf3f6!important;color:#203d4d!important;border:1px solid #a7c5d0!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-head,body[data-studio19-theme="daybreak"] #career-hub .career-metrics,body[data-studio19-theme="daybreak"] #career-hub .career-footer,body[data-studio19-theme="daybreak"] #studio20-management-nav{background:#ddebf0!important;border-color:#b5cbd4!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-head h2,body[data-studio19-theme="daybreak"] #career-hub .career-metric b{color:#254455!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-metric span,body[data-studio19-theme="daybreak"] #career-hub .career-kicker{color:#55798b!important}
+body[data-studio19-theme="daybreak"] #studio20-management-nav .studio20-primary-nav button,body[data-studio19-theme="daybreak"] #studio20-management-nav .studio20-sub-nav button{background:#f4fafb!important;color:#3d5b6c!important;border:1px solid #b8d1d9!important}
+body[data-studio19-theme="daybreak"] #studio20-management-nav .studio20-primary-nav button.active,body[data-studio19-theme="daybreak"] #studio20-management-nav .studio20-sub-nav button.active{background:#c3e5e8!important;color:#086078!important;border-color:#74adbb!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-body,body[data-studio19-theme="daybreak"] #career-hub #empire-v18-content{background:#eaf2f5!important;color:#294456!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-card,body[data-studio19-theme="daybreak"] #career-hub .empire18-card,body[data-studio19-theme="daybreak"] #career-hub .empire18-company{background:#fff!important;color:#233c4d!important;border-color:#c1d5dd!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-card header strong,body[data-studio19-theme="daybreak"] #career-hub .career-card h3,body[data-studio19-theme="daybreak"] #career-hub .empire18-card header span,body[data-studio19-theme="daybreak"] #career-hub .career-list b{color:#24495d!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-card p,body[data-studio19-theme="daybreak"] #career-hub .career-info,body[data-studio19-theme="daybreak"] #career-hub .empire18-subtle{color:#526b79!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-list span{color:#357187!important}
+body[data-studio19-theme="daybreak"] #career-hub input,body[data-studio19-theme="daybreak"] #career-hub select{background:#f6fafc!important;color:#1a4153!important;border-color:#a9c5d0!important}
+body[data-studio19-theme="daybreak"] #career-hub button.career-action,body[data-studio19-theme="daybreak"] #career-hub .empire18-action.primary{background:#147f93!important;color:#fff!important;border-color:#126879!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-head-actions button,body[data-studio19-theme="daybreak"] #career-hub .career-footer button{background:#f4fbfc!important;color:#25475a!important;border-color:#abc6d0!important}
+body[data-studio19-theme="daybreak"] .studio19-menu{background:linear-gradient(135deg,#f0f7fa,#cfe2e8)!important;color:#1e3e53!important}
+body[data-studio19-theme="daybreak"] .studio19-logo strong,body[data-studio19-theme="daybreak"] .studio19-hero h1{color:#1e3d51!important}
+body[data-studio19-theme="daybreak"] .studio19-hero h1 i,body[data-studio19-theme="daybreak"] .studio19-logo em{color:#bc783b!important}
+body[data-studio19-theme="daybreak"] .studio19-button,body[data-studio19-theme="daybreak"] .studio19-side,body[data-studio19-theme="daybreak"] .studio19-form input,body[data-studio19-theme="daybreak"] .studio19-form select{background:#fff!important;color:#254757!important;border-color:#b4cfdb!important}
+body[data-studio19-theme="daybreak"] .studio19-button strong,body[data-studio19-theme="daybreak"] .studio19-side-heading strong{color:#204253!important}
+body[data-studio19-theme="daybreak"] .studio19-button.primary:not(:disabled){background:#137f96!important;color:#fff!important}
+#se21-timebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 12px;border:1px solid #acc9d5;border-radius:11px;background:#e6f2f5;color:#1d4254;position:relative;min-height:54px}
+.se21-time-label{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;min-width:0}.se21-time-label small{font-size:10px;color:#4e7282}.se21-live-dot{width:8px;height:8px;background:#2aa583;border-radius:50%;box-shadow:0 0 0 3px #2aa58322}
+.se21-speed-controls{display:flex;gap:4px;margin-left:auto}.se21-speed-controls button{background:#f9fcff;border:1px solid #a8c4d1;border-radius:8px;color:#375666;min-width:33px;min-height:35px;font-size:12px;font-weight:800;cursor:pointer}
+.se21-speed-controls button.active{background:#16849c;color:#fff;border-color:#16849c}
+#se21-timebar[data-paused="true"] .se21-live-dot{background:#bd8047;box-shadow:none}
+.se21-timeline{position:absolute;bottom:0;left:0;right:0;height:3px;overflow:hidden}.se21-timeline i{display:block;background:linear-gradient(90deg,#35af91,#188ca5);height:100%;transition:width .2s linear}
+#se21-options{cursor:pointer;padding:10px;border-radius:8px;font-size:11px;font-weight:750}
+.se21-auto-panel{position:absolute;right:4px;top:100%;z-index:100;background:#f4fafc;color:#234454;border:1px solid #9fc2ce;border-radius:10px;padding:14px;display:grid;gap:10px;width:min(310px,93vw);box-shadow:0 14px 35px #143e4c55;font-size:12px}
+.se21-auto-panel[hidden]{display:none!important}.se21-auto-panel label{display:flex;gap:8px;align-items:center}.se21-auto-panel input{accent-color:#158398}.se21-auto-panel p{font-size:11px;color:#577380;margin:0}
+#se21-notices{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,25px);background:#244457;color:#fff;padding:11px 16px;border-radius:10px;z-index:6400;box-shadow:0 12px 30px #112f3d66;opacity:0;pointer-events:none;transition:opacity .23s,transform .23s;max-width:min(420px,92vw);text-align:center;font-size:12px}
+#se21-notices.show{opacity:1;transform:translate(-50%,0)}
+.se21-title-tools{display:flex;gap:7px;margin-top:7px}.se21-title-tools button{background:#147d92!important;color:#fff!important;padding:9px 12px;border:0!important;border-radius:8px;min-height:36px;cursor:pointer;font-size:11px}
+.se21-title-suggestions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.se21-title-suggestions button{background:#e0eef3!important;color:#25546a!important;border:1px solid #a2c5d1!important;padding:8px;border-radius:7px;cursor:pointer;font-size:10px}
+@media(max-width:740px){#se21-timebar{border-radius:0;gap:6px;padding:8px}.se21-speed-controls button{min-width:29px}#se21-date{font-size:10px}.se21-time-label small{display:none}.se21-auto-panel{right:0}}
+@media(prefers-reduced-motion:reduce){#se21-notices,#se21-progress{transition:none!important}}

@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
+const map=new Map(),store={getItem:k=>map.has(k)?map.get(k):null,setItem:(k,v)=>map.set(k,String(v)),removeItem:k=>map.delete(k)};
+const ctx={console,localStorage:store,Date,Math,JSON,Intl};ctx.window=ctx;ctx.globalThis=ctx;
+runInNewContext(readFileSync('game3d/career-simulation.js','utf8'),ctx);
+runInNewContext(readFileSync('game3d/industry-v18.js','utf8'),ctx);
+const core=ctx.StudioEmpireCareer,api=ctx.StudioEmpireIndustry;
+let passed=0;
+function test(name,fn){fn();console.log('PASS '+name);passed++}
+test('New career has one founder and persistent AI studios',()=>{const r=core.createCareer({studio:'Arbor Interactive',founder:'Jordan',year:1980,difficulty:'standard'},store);assert.equal(r.ok,true);assert.equal(core.read(store).staff.length,1);assert.equal(core.read(store).companies.length,16)});
+test('Industry launch idempotence',()=>{const before=store.getItem(core.KEY);assert.equal(api.init(store).already,true);assert.equal(store.getItem(core.KEY),before)});
+test('Training charges and increases actual skill',()=>{const s=core.read(store),r=api.train(s.staff[0].id,store);assert.equal(r.ok,true);assert.equal(core.read(store).cash,s.cash-4600);assert.equal(core.read(store).staff[0].skill,s.staff[0].skill+9)});
+test('Marketing spends and changes audience',()=>{const s=core.read(store);assert.equal(api.campaign('community',store).ok,true);assert.equal(core.read(store).cash,s.cash-1800);assert.equal(core.read(store).fans,s.fans+40)});
+test('Week advances AI without double processing',()=>{const r=core.advanceWeek(store);assert.equal(r.ok,true);assert.equal(core.read(store).industryWeek,1);const prev=store.getItem(core.KEY);assert.equal(api.week(store).already,true);assert.equal(store.getItem(core.KEY),prev)});
+test('Acquisition refusal does not alter funds',()=>{const before=store.getItem(core.KEY);assert.equal(api.acquire('industry-15',store).ok,false);assert.equal(store.getItem(core.KEY),before)});
+test('Acquisition and resale preserve subsidiary records',()=>{const s=core.read(store);s.cash=10000000;s.rep=70;store.setItem(core.KEY,JSON.stringify(s));assert.equal(api.acquire('industry-0',store).ok,true);assert.equal(core.read(store).companies[0].owned,true);assert.equal(api.acquire('industry-0',store).ok,false);assert.equal(api.sell('industry-0',store).ok,true);assert.equal(core.read(store).companies[0].owned,false)});
+test('Competing studios release simulated games',()=>{for(let i=0;i<42;i++)assert.equal(core.advanceWeek(store).ok,true);const s=core.read(store);assert.equal(s.industryWeek,s.weekNumber);assert.ok(s.companies.some(c=>c.portfolio>0))});
+test('DLC and patches modify continuing-sales fields',()=>{let s=core.read(store);s.games=[{id:95,name:'Prototype',platform:'kit',initialSales:300,releaseWeek:s.weekNumber-2,patches:0,dlc:0}];store.setItem(core.KEY,JSON.stringify(s));assert.equal(api.support(95,'patch',store).ok,true);assert.equal(api.support(95,'dlc',store).ok,true);const g=core.read(store).games[0];assert.equal(g.patches,1);assert.equal(g.dlc,1);assert.ok(g.initialSales>300)});
+test('Backup maintained',()=>assert.ok(JSON.parse(store.getItem(api.BACKUP)).studio));
+test('Unknown actions reject without writing',()=>{const prior=store.getItem(core.KEY);assert.equal(api.campaign('invalid',store).ok,false);assert.equal(store.getItem(core.KEY),prior)});
+console.log('v18 industry economic regression: '+passed+' tests passed');

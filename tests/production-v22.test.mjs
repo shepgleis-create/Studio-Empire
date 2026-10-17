@@ -1,0 +1,41 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
+const map=new Map(),store={getItem:k=>map.has(k)?map.get(k):null,setItem:(k,v)=>map.set(k,String(v)),removeItem:k=>map.delete(k)};
+const ctx={console,Date,Math,JSON,Intl,localStorage:store};ctx.window=ctx;ctx.globalThis=ctx;
+for(const path of ['game3d/career-simulation.js','game3d/industry-v18.js','game3d/production-v22.js'])runInNewContext(readFileSync(path,'utf8'),ctx);
+const core=ctx.StudioEmpireCareer,api=ctx.StudioEmpireProduction22;
+let passed=0;
+function ok(value,message){assert.ok(value,message);passed++;}
+function eq(a,b,message){assert.equal(a,b,message);passed++;}
+ok(core.createCareer({studio:'Bluebird Games',founder:'Taylor',year:1975,difficulty:'standard'},store).ok,'start career');
+eq(core.read(store).staff.length,1,'one founder');
+ok(core.startProject({name:'Arcade Moon',genre:'Adventure',topic:'Fantasy',platform:'kit',size:'indie'},store).ok,'start project');
+const snapshot=store.getItem(core.KEY);
+eq(api.changeFocus([100,100,100],store).reason,'INVALID_180_POINT_BUDGET','reject invalid focus');
+eq(store.getItem(core.KEY),snapshot,'no write on invalid focus');
+ok(api.changeFocus([85,35,60],store).ok,'change focus');
+ok(api.setStrategy('quality',store).ok,'quality policy');
+ok(api.setDeadline(12,store).ok,'delivery target');
+ok(api.specialize(0,'qa',store).ok,'assign QA');
+const before=core.read(store);
+ok(before.project.weeklyCost>before.project.baseWeeklyCost,'quality costs more');
+let tick=core.advanceWeek(store);
+ok(tick.ok,'advance combined economy');
+const after=core.read(store);
+ok(after.project.lastProductionWeek===after.weekNumber,'production tick completed');
+const revision=after._studio3dRevision;
+ok(api.applyWeek(before,store).already,'duplicate production tick skipped');
+eq(core.read(store)._studio3dRevision,revision,'no double charge or save');
+ok(after.project.bugs<=before.project.bugs+1,'QA counters bugs');
+ok(api.report(after).weeksRemaining>=0,'live forecast');
+ok(api.setStrategy('crunch',store).ok,'change policy during production');
+ok(core.read(store).project.weeklyCost>before.project.weeklyCost,'higher cost for crunch');
+eq(api.setDeadline(2,store).reason,'INVALID_TARGET','reject unreasonable target');
+let steps=0;while(!core.read(store).project.ready&&steps<70){ok(core.advanceWeek(store).ok,'weekly simulation');steps++;}
+ok(core.read(store).project.ready,'project finished');
+ok(api.report(core.read(store)).milestones.length>=2,'production milestones saved');
+ok(core.releaseProject(store).ok,'released game');
+eq(core.read(store).games[0].name,'Arcade Moon','game preserved');
+ok(!api.report(core.read(store)).active,'finished project no longer active');
+console.log('Studio Empire v0.22:',passed,'assertions passed,',steps,'production weeks');

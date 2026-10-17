@@ -1,0 +1,56 @@
+name: Studio Empire 3D Career Regression
+on:
+  push:
+    branches: [feature/3d-engine-foundation]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  career-and-webgl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Validate browser JavaScript syntax before running WebGL
+        run: |
+          node --check game3d/main-menu-v19.js
+          node --check game3d/production-v22.js
+          node --check game3d/production-ui-v22.js
+          node --check game3d/ui-overhaul-v17.js
+          node --check game3d/save-import-v17.js
+          node --check game3d/materials-v17.js
+          node --check game3d/office-progression.js
+      - name: Verify career simulation and safe saves
+        run: node --test tests/career.test.mjs tests/validate-shell.mjs && node tests/production-v22.test.mjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare real browser
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Start existing repo web server
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 > /tmp/studio-http.log 2>&1 &
+          sleep 2
+      - name: Verify real WebGL 3D and complete career workflow
+        run: python tests/3d-career-browser.py
+      - name: Verify production management in real 3D phone and desktop browsers
+        run: python tests/production-v22-browser.py
+      - name: Verify unified phone navigation and premium UI regression
+        run: python tests/ui-navigation-v17.py
+      - name: Verify main menu, new career and themes in actual 3D browser
+        run: python tests/menu-v19-browser.py
+      - name: Upload actual gameplay proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: studio-empire-v016-actual-browser
+          path: |
+            game3d/tests/career-browser-proof/
+            game3d/tests/ui-v17-actual/
+            game3d/tests/menu-v19-proof/
+          if-no-files-found: ignore

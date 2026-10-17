@@ -1,0 +1,44 @@
+name: Studio Empire v0.21 Auto Simulation
+on:
+  push:
+    branches: [feature/3d-engine-foundation]
+    paths:
+      - 'game3d/**'
+      - 'tests/v21-simulation.test.cjs'
+      - '.github/workflows/v21-auto-simulation.yml'
+  pull_request:
+    paths:
+      - 'game3d/**'
+      - 'tests/v21-simulation.test.cjs'
+jobs:
+  unit-and-integration-guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check browser JavaScript syntax
+        run: |
+          node --check game3d/simulation-v21.js
+          node --check game3d/experience-v21.js
+          node --check game3d/lighting-v21.js
+          node --check game3d/garage.js
+          node --check game3d/main-menu-v19.js
+      - name: Run name and time simulation unit tests
+        run: node tests/v21-simulation.test.cjs
+      - name: Assert installed browser assets and script order
+        run: |
+          node - <<'JS'
+          const fs=require('node:fs'),assert=require('node:assert/strict');
+          const c=fs.readFileSync('game3d/index.html','utf8');
+          for(const f of ['daybreak-v21.css','lighting-v21.js','simulation-v21.js','experience-v21.js'])assert.ok(c.includes(f),f);
+          assert.ok(c.indexOf('experience-v21.js')>c.indexOf('career-interface.js'));
+          assert.ok(c.indexOf('experience-v21.js')>c.indexOf('industry-v18.js'));
+          assert.ok(c.indexOf('daybreak-v21.css')>c.indexOf('interface-v20.css'));
+          const menu=fs.readFileSync('game3d/main-menu-v19.js','utf8');
+          assert.ok(menu.includes('Daybreak — Bright sky'));
+          const garage=fs.readFileSync('game3d/garage.js','utf8');
+          assert.ok(garage.includes('StudioEmpireExperience21?.clock?.status'));
+          console.log('PASS HTML asset wiring, main menu, 3D animation bridge');
+          JS
