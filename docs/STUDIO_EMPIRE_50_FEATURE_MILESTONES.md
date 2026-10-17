@@ -1,17 +1,17 @@
 # STUDIO EMPIRE — 50 major feature milestones
 
-This is the requested roadmap, not a claim that fifty systems were built in v0.21. Items marked checked represent code implemented in the v0.21 branch. CI browser tests may remain pending. Each item must receive independent gameplay and regression verification before final signoff.
+This is the requested roadmap, not a claim that fifty systems were built in v0.21. Items marked checked represent code present in the v0.22 development branch. Passing CI is tracked separately; unchecked requirements must not be claimed complete. Each item must receive independent gameplay and regression verification before final signoff.
 
 - [x] 01. Continuous week simulation while the game is visible
 - [x] 02. Adjustable game speed and pause/resume
 - [x] 03. Auto-publish finished games with opt-out
 - [x] 04. Genre and theme aware game-title generator
 - [ ] 05. More varied game scopes and project types
-- [ ] 06. Project scheduling and release date targets
+- [x] 06. Project scheduling and release date targets (relative simulated week targets; missed date increases bugs)
 - [ ] 07. Multiple simultaneous development teams
-- [ ] 08. Feature-budget allocation inside projects
+- [x] 08. Development-priority budget allocation inside projects (180-point design/technology/presentation budget)
 - [ ] 09. Risk of scope creep and delays
-- [ ] 10. Testing and bug-fixing allocations
+- [x] 10. Testing and bug-fixing allocations (QA staff specialization and quality policy affect defects)
 - [ ] 11. Publisher contract negotiations
 - [ ] 12. Platform exclusivity contracts
 - [ ] 13. Game price changes over its lifecycle
@@ -31,7 +31,7 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [ ] 27. Subsidiary integration and restructuring
 - [ ] 28. Buy and sell studio intellectual property
 - [ ] 29. Inter-studio engine licensing contracts
-- [ ] 30. Employee positions and specialties
+- [x] 30. Employee positions and specialties (saved roles influence project progression and bug rate)
 - [ ] 31. Skill growth through real project work
 - [ ] 32. Employee promotions and salary negotiations
 - [ ] 33. Burnout, time off and morale
@@ -64,3 +64,11 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 ## Release standards
 
 No static image presented as gameplay. No savings overwritten by automated time; no offline catch-up. Each purchased office must remain a genuine paid progression. Each feature requires real UI, persistent state, at least one behavioral test, and running-game visual review where appropriate.
+
+## v0.22 development scope
+
+- Implemented: Production Lab under Games, project strategy (balanced/quality/crunch/lean), fixed development-priority budgets, deadline risk, project stage milestones, QA/programming/art/audio/design specialties, project cost and time forecasts.
+- Connected to the existing saved career, industry economics, continuous simulator, and release-quality calculation. The original production branch remains unchanged.
+- Automated tests: `tests/production-v22.test.mjs` and real WebGL browser test `tests/production-v22-browser.py` (verify actual GitHub Actions results before marking browser verification complete).
+- Still incomplete: scope creep, fully adjustable feature-level budgets, studio HR leave/raises, multiple simultaneous projects, professional 3D character models, premium building interiors, physical iPhone Safari test, offline simulation recovery.
+- Previous milestones 01–04 and 41 remain checked; this batch adds 06, 08, 10, and 30. Other items are not counted as finished.
