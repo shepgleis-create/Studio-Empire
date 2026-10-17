@@ -2,7 +2,7 @@
 (function(){'use strict';
 const ui=window.StudioEmpireCareerUI,industry=window.StudioEmpireIndustryUI,hub=document.getElementById('career-hub'),old=hub?.querySelector('.career-tabs');
 if(!ui||!hub||!old){console.error('Studio Empire 20: career routing unavailable');return;}
-const groups=[{id:'overview',label:'Overview',icon:'⌂',items:[['dashboard','Dashboard'],['finance','Reports']]},{id:'games',label:'Games',icon:'▣',items:[['projects','Develop'],['catalog','My games'],['research','Research']]},{id:'team',label:'Team',icon:'♙',items:[['team','Employees'],['training','Training']]},{id:'business',label:'Business',icon:'▥',items:[['offices','Offices'],['rivals','Rivals'],['holdings','Subsidiaries'],['promotion','Marketing'],['market','Market']]}];
+const groups=[{id:'overview',label:'Overview',icon:'⌂',items:[['dashboard','Dashboard'],['finance','Reports']]},{id:'games',label:'Games',icon:'▣',items:[['projects','Develop'],['production22','Production Lab'],['catalog','My games'],['research','Research']]},{id:'team',label:'Team',icon:'♙',items:[['team','Employees'],['training','Training']]},{id:'business',label:'Business',icon:'▥',items:[['offices','Offices'],['rivals','Rivals'],['holdings','Subsidiaries'],['promotion','Marketing'],['market','Market']]}];
 const groupByTab=Object.fromEntries(groups.flatMap(g=>g.items.map(([t])=>[t,g.id])));
 let active='dashboard',section='overview',lastFocus=null;
 old.classList.add('se20-old-tabs');old.setAttribute('aria-hidden','true');old.querySelectorAll('button').forEach(b=>b.tabIndex=-1);
@@ -21,7 +21,7 @@ function openPage(page){
  const el=old.querySelector('[data-career-tab="'+page+'"],[data-empire-tab="'+page+'"]');if(!el)return false;
  if(hub.hidden)lastFocus=document.activeElement;
  active=page;section=groupByTab[page]||'overview';
- if(el.dataset.empireTab && industry)industry.open(page);else{ui.open();el.click();}
+ if(page==='production22'&&window.StudioEmpireProductionUI22){window.StudioEmpireProductionUI22.open();}else{window.StudioEmpireProductionUI22?.close();if(el.dataset.empireTab && industry)industry.open(page);else{ui.open();el.click();}}
  sync();
  const target=document.getElementById('empire-v18-content')?.hidden===false?document.getElementById('empire-v18-content'):document.getElementById('career-body');
  if(target){target.scrollTop=0;target.classList.remove('se20-page-in');if(!document.body.classList.contains('studio19-no-motion')){void target.offsetWidth;target.classList.add('se20-page-in');}}
