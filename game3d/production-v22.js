@@ -18,10 +18,10 @@ function applyWeek(previous,store=g.localStorage){
  const mode=STRATEGIES[p.strategy]||STRATEGIES.balanced;
  const counts={};for(const person of s.staff)counts[person.specialty||"generalist"]=(counts[person.specialty||"generalist"]||0)+1;
  const developers=(counts.design||0)+(counts.programming||0);
- p.progress=clamp(num(p.progress)+mode.speed+Math.min(.24,developers*.07),0,num(p.weeks,12));
+ p.progress=clamp(num(p.progress)+mode.speed+Math.min(.24,developers*.07),0,num(p.weeks,12));if(p.ready)p.progress=num(p.weeks,12);
  p.bugs=clamp(num(p.bugs)+mode.bugs-Math.min(.26,(counts.qa||0)*.12),0,30);
  p.match=clamp(num(p.match)+Math.min(.5,(developers+(counts.art||0)+(counts.audio||0))*.1),0,25);
- const genre=["Action","Adventure","RPG","Simulation","Strategy","Puzzle","Racing","Sports"][num(s.trendIndex)%8];p.trend=clamp(num(p.trend)+(genre===p.genre?.25:0),0,15);
+ const genre=["Action","Adventure","RPG","Simulation","Strategy","Puzzle","Racing","Sports"][num(s.trendIndex)%8];p.trend=clamp(num(p.trend)+(genre===p.genre ? .25 : 0),0,15);
  for(const person of s.staff){person.morale=clamp(num(person.morale,80)+mode.morale,20,100);person.energy=clamp(num(person.energy,80)+(p.strategy==="crunch"?-.5:0),30,100);}
  s.morale=Math.round(s.staff.reduce((sum,p)=>sum+num(p.morale,80),0)/s.staff.length);
  if(Number.isInteger(p.targetWeek)&&s.weekNumber>p.targetWeek&&!p.ready){p.deadlineMissed=true;p.bugs=clamp(p.bugs+.14,0,30);}
