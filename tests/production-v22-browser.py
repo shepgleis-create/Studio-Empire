@@ -19,7 +19,7 @@ async def main():
             await page.locator('#studio19-new-form [name="founder"]').fill('Avery')
             await page.locator('#studio19-new-form button[type="submit"]').click()
             await page.wait_for_function("document.body.dataset.engine==='running' && window.StudioEmpireCareer.read()?.studio==='Pixel Atlas'",timeout=70000)
-            await page.locator('[data-se20-dest="games"]').first.click()
+            await page.locator('.mobile-nav [data-se20-dest="games"]' if width<600 else '.se20-side-link[data-se20-dest="games"]').click()
             await page.locator('#career-project-form [name="name"]').fill('Moon City')
             await page.locator('#career-project-form button[type="submit"]').click()
             assert await page.evaluate('window.StudioEmpireCareer.read().project?.name==="Moon City"')
