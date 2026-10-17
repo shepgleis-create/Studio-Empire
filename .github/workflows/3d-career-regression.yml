@@ -17,12 +17,14 @@ jobs:
       - name: Validate browser JavaScript syntax before running WebGL
         run: |
           node --check game3d/main-menu-v19.js
+          node --check game3d/production-v22.js
+          node --check game3d/production-ui-v22.js
           node --check game3d/ui-overhaul-v17.js
           node --check game3d/save-import-v17.js
           node --check game3d/materials-v17.js
           node --check game3d/office-progression.js
       - name: Verify career simulation and safe saves
-        run: node --test tests/career.test.mjs tests/validate-shell.mjs
+        run: node --test tests/career.test.mjs tests/validate-shell.mjs && node tests/production-v22.test.mjs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -36,6 +38,8 @@ jobs:
           sleep 2
       - name: Verify real WebGL 3D and complete career workflow
         run: python tests/3d-career-browser.py
+      - name: Verify production management in real 3D phone and desktop browsers
+        run: python tests/production-v22-browser.py
       - name: Verify unified phone navigation and premium UI regression
         run: python tests/ui-navigation-v17.py
       - name: Verify main menu, new career and themes in actual 3D browser
