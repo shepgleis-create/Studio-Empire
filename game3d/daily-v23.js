@@ -11,7 +11,7 @@ if(before.finished||before.year>=2200)return{ok:false,reason:'CAREER_ENDED'};
 if(before.project?.ready)return{ok:false,reason:'PROJECT_READY'};
 let boundary=false;
 const r=industry.transaction('daily-simulation',s=>{
-const d=calendar(s);d.setUTCDate(d.getUTCDate()+1);s.year=d.getUTCFullYear();s.month=d.getUTCMonth()+1;s.day=d.getUTCDate();s.week=Math.ceil(s.day/7);
+const previousYear=s.year;const d=calendar(s);d.setUTCDate(d.getUTCDate()+1);s.year=d.getUTCFullYear();s.month=d.getUTCMonth()+1;s.day=d.getUTCDate();s.week=Math.ceil(s.day/7);
 s.dailySerial=v(s.dailySerial,v(s.weekNumber)*7)+1;boundary=s.dailySerial%7===0;if(boundary)s.weekNumber=v(s.weekNumber)+1;
 const monthly=s.staff.reduce((a,x)=>a+v(x.salary),0)+monthCosts[s.office]+v(s.engine,1)*300;
 const burn=Math.round(monthly*(diff[s.difficulty]||1)*12/365);s.cash-=burn;s.totalSpent=v(s.totalSpent)+burn;s.yearlyProfit=v(s.yearlyProfit)-burn;
@@ -37,7 +37,7 @@ s.cash+=revenue;s.totalRevenue=v(s.totalRevenue)+revenue;s.yearlyProfit=v(s.year
 s.staff.forEach(e=>{e.energy=clamp(v(e.energy,80)-(s.project?.23:.06),35,100);e.morale=clamp(v(e.morale,80)+(s.cash>=0?.013:-.1),25,100)});
 s.morale=Math.round(s.staff.reduce((a,e)=>a+v(e.morale,80),0)/s.staff.length);
 if(boundary&&s.weekNumber%13===0)s.trendIndex=(v(s.trendIndex)+1)%8;
-if(s.year>d.getUTCFullYear()){} // Calendar is the authority for daily dates.
+if(s.year!==previousYear){s.finance=[...(s.finance||[]),{date:'JAN '+s.year,profit:s.yearlyProfit,cash:s.cash}].slice(-60);s.yearlyProfit=0;}
 return {date:s.day,month:s.month,year:s.year,revenue,burn,projectReady:!!s.project?.ready};
 },store);
 if(!r.ok)return r;
