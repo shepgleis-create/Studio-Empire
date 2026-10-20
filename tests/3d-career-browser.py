@@ -29,14 +29,14 @@ async def main():
       await page.wait_for_function("document.body.dataset.engine === 'running' && !!window.StudioEmpireCareerUI && window.StudioEmpireCareer.read()?.studio==='Mosaic Circuit'",timeout=70000)
       assert await page.evaluate('window.StudioEmpireCareer.read().staff.length')==1
       await page.locator(launch).click()
-      assert await page.locator('#career-hub').is_visible()
-      assert await page.locator('body').get_attribute('data-se20-page')=='projects'
-      await page.locator('input[name="name"]').fill('First Star')
-      await page.locator('#career-project-form button[type="submit"]').click()
+      assert await page.locator('#se25').is_visible(), 'New Studio Empire command console did not open'
+      assert await page.evaluate('window.StudioEmpireConsole25.debug().page')=='create'
+      await page.locator('#se25-title').fill('First Star')
+      await page.locator('#se25-create button[type="submit"]').click()
       assert await page.evaluate("window.StudioEmpireCareer.read().project?.name==='First Star'")
-      # Verify the actual continuous game clock, not removed click-to-advance controls.
-      await page.locator('#career-close').click()
-      assert not await page.locator('#career-hub').is_visible(), 'Management sheet did not close'
+      # Verify the real continuous clock while the management console is closed.
+      await page.locator('#se25 .se25-header [data-close="yes"]').click()
+      assert not await page.locator('#se25').is_visible(), 'Command console did not close'
       before_day=await page.evaluate('window.StudioEmpireCareer.read().dailySerial || 0')
       await page.locator('#se21-timebar [data-se21-speed="8"]').click()
       await page.wait_for_function('(before) => (window.StudioEmpireCareer.read()?.dailySerial||0)>before+2',arg=before_day,timeout=25000)
@@ -47,7 +47,8 @@ async def main():
       assert await page.evaluate('window.StudioEmpireCareer.read().dailySerial')==frozen,'Paused clock progressed'
       # No page reload or click required to publish with default auto-publish enabled.
       await page.locator(launch).click()
-      await page.locator('[data-se20-group="overview"]').click()
+      await page.locator('#se25-groups [data-group="studio"]').click()
+      assert await page.locator('#se25').is_visible()
       await page.screenshot(path=str(OUT/f'{width}-career-management.png'))
       assert await page.evaluate("window.StudioEmpireCareer.read().games[0].name==='First Star'")
       assert await page.evaluate('window.StudioEmpireCareer.read().fans>0')
