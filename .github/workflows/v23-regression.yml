@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate 3D career browser test syntax
+        run: python3 -m py_compile tests/3d-career-browser.py
       - name: Validate daily engine, rival contracts and opt-in music syntax
         run: |
           node --check game3d/daily-v23.js
