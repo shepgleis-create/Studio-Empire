@@ -14,7 +14,7 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [x] 10. Testing and bug-fixing allocations (QA staff specialization and quality policy affect defects)
 - [x] 11. Publisher contract negotiations (new: three rival offers per active title; accept, one deterministic counteroffer, decline, financed advances, permanent royalties, deadlines and late fees. CI pending)
 - [ ] 12. Platform exclusivity contracts
-- [ ] 13. Game price changes over its lifecycle
+- [x] 13. Game price changes over its lifecycle (saved prices, 14-day cooldown, price-sensitive unit demand, timed 7/14/28-day discounts and automatic expiry; final CI pending)
 - [ ] 14. Sequels and franchise planning
 - [ ] 15. Expansion packs and DLC revenue models
 - [ ] 16. Live-service post-launch retention
@@ -86,3 +86,9 @@ Implemented daily date/time, sound toggle, research partnerships, paid publishin
 - User interfaces under Games → Publishers, Team → Culture, Overview → Milestones. Existing 3D branch, main menu, mobile navigation and save key preserved.
 - Local pre-integration prototype: 142 assertions passed. Exact committed implementation: new GitHub Actions v24-expansion test added; must check its completion before claiming regression pass. Existing UI/browser tests and physical iPhone Safari: not independently verified for v0.24.
 - Premium concept art: still not achieved; no artwork was generated or counted as gameplay in this batch.
+
+## v0.24 — Post-release pricing addendum
+
+- New Games → Pricing screen changes released games' saved prices. Actual daily copies use a price-elasticity factor; the sale economy reacts to both price and volume.
+- Sales can run 10–40% discounts for 7, 14, or 28 simulated days and automatically restore the previous price. Pricing cooldown prevents rapid changes; valid saves are retained.
+- Added pricing regression workflow and existing Production Lab form-refresh protection. Full integrated GitHub Actions tests must be checked before claiming this specific revision is verified.
