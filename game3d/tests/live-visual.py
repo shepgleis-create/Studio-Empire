@@ -11,7 +11,7 @@ def career(tier):
          'staff':[{'id':i+1,'name':'Employee '+str(i+1),'role':'Developer','energy':85} for i in range(count)],
          'games':[{'title':'Released Game '+str(i)} for i in range(10)],'history':[],'officeHistory':[]}
 async def main():
- for js in ('garage.js','office-progression.js','office-economy.js','office-art-v015.js','bridge.js'):
+ for js in ('garage.js','office-progression.js','office-economy.js','office-art-v015.js','bridge.js','studio-systems-v25.js','studio-console-v25.js'):
   subprocess.run(['node','--check',str(ROOT/js)],check=True)
  subprocess.run(['node',str(ROOT/'tests/office-economy.test.cjs')],check=True)
  report={'url':URL,'results':[]}
