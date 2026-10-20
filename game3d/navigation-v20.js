@@ -2,7 +2,7 @@
 (function(){'use strict';
 const ui=window.StudioEmpireCareerUI,industry=window.StudioEmpireIndustryUI,hub=document.getElementById('career-hub'),old=hub?.querySelector('.career-tabs');
 if(!ui||!hub||!old){console.error('Studio Empire 20: career routing unavailable');return;}
-const groups=[{id:'overview',label:'Overview',icon:'⌂',items:[['dashboard','Dashboard'],['finance','Reports']]},{id:'games',label:'Games',icon:'▣',items:[['projects','Develop'],['production22','Production Lab'],['catalog','My games'],['research','Research']]},{id:'team',label:'Team',icon:'♙',items:[['team','Employees'],['training','Training']]},{id:'business',label:'Business',icon:'▥',items:[['offices','Offices'],['rivals','Rivals'],['holdings','Subsidiaries'],['promotion','Marketing'],['market','Market']]}];
+const groups=[{id:'overview',label:'Overview',icon:'⌂',items:[['dashboard','Dashboard'],['finance','Reports'],['milestones','Milestones']]},{id:'games',label:'Games',icon:'▣',items:[['projects','Develop'],['production22','Production Lab'],['publishers','Publishers'],['catalog','My games'],['research','Research']]},{id:'team',label:'Team',icon:'♙',items:[['team','Employees'],['training','Training'],['culture','Culture']]},{id:'business',label:'Business',icon:'▥',items:[['offices','Offices'],['rivals','Rivals'],['holdings','Subsidiaries'],['promotion','Marketing'],['market','Market']]}];
 const groupByTab=Object.fromEntries(groups.flatMap(g=>g.items.map(([t])=>[t,g.id])));
 let active='dashboard',section='overview',lastFocus=null;
 old.classList.add('se20-old-tabs');old.setAttribute('aria-hidden','true');old.querySelectorAll('button').forEach(b=>b.tabIndex=-1);
@@ -18,17 +18,17 @@ function sync(){
  document.querySelectorAll('[data-se20-dest]').forEach(b=>{let on=hub.hidden?b.dataset.se20Dest==='office':b.dataset.se20Dest===section;b.classList.toggle('active',on);if(on)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
 }
 function openPage(page){
- const el=old.querySelector('[data-career-tab="'+page+'"],[data-empire-tab="'+page+'"]');if(!el)return false;
+ const custom24=['publishers','culture','milestones'].includes(page);const el=old.querySelector('[data-career-tab="'+page+'"],[data-empire-tab="'+page+'"]');if(!el&&!custom24)return false;
  if(hub.hidden)lastFocus=document.activeElement;
  active=page;section=groupByTab[page]||'overview';
- if(page==='production22'&&window.StudioEmpireProductionUI22){window.StudioEmpireProductionUI22.open();}else{window.StudioEmpireProductionUI22?.close();if(el.dataset.empireTab && industry)industry.open(page);else{ui.open();el.click();}}
+ if(custom24&&window.StudioEmpireExpansionUI24){window.StudioEmpireExpansionUI24.open(page);}else if(page==='production22'&&window.StudioEmpireProductionUI22){window.StudioEmpireExpansionUI24?.close();window.StudioEmpireProductionUI22.open();}else{window.StudioEmpireExpansionUI24?.close();window.StudioEmpireProductionUI22?.close();if(el?.dataset.empireTab && industry)industry.open(page);else{ui.open();el.click();}}
  sync();
- const target=document.getElementById('empire-v18-content')?.hidden===false?document.getElementById('empire-v18-content'):document.getElementById('career-body');
+ const target=document.getElementById('se24-content')?.hidden===false?document.getElementById('se24-content'):document.getElementById('empire-v18-content')?.hidden===false?document.getElementById('empire-v18-content'):document.getElementById('career-body');
  if(target){target.scrollTop=0;target.classList.remove('se20-page-in');if(!document.body.classList.contains('studio19-no-motion')){void target.offsetWidth;target.classList.add('se20-page-in');}}
  return true;
 }
 function openGroup(id){const g=groups.find(g=>g.id===id);return !!g && openPage(g.items[0][0]);}
-function office(){if(industry?.active)industry.close();ui.close();sync();if(lastFocus?.focus)lastFocus.focus({preventScroll:true});}
+function office(){window.StudioEmpireExpansionUI24?.close();window.StudioEmpireProductionUI22?.close();if(industry?.active)industry.close();ui.close();sync();if(lastFocus?.focus)lastFocus.focus({preventScroll:true});}
 nav.addEventListener('click',e=>{let g=e.target.closest('[data-se20-group]')?.dataset.se20Group,t=e.target.closest('[data-se20-page]')?.dataset.se20Page;if(g)openGroup(g);else if(t)openPage(t);});
 function choose(dest){if(dest==='office')office();else openGroup(dest);}
 const mobile=document.querySelector('.mobile-nav');
