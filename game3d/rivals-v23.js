@@ -39,7 +39,7 @@ s.rivalDeals=(s.rivalDeals||[]).filter(d=>d.ends>=w-4).slice(-100);
 return {earnings,research};},storage);}
 function status(s){return(s?.rivalDeals||[]).filter(d=>d.ends>=n(s.weekNumber)).map(d=>({...d,remaining:d.ends-n(s.weekNumber)}));}
 g.StudioEmpireRivals23={contract,weekly,status};
-const ui=g.StudioEmpireIndustryUI,view=document.getElementById('empire-v18-content');if(!ui||!view)return;
+const ui=g.StudioEmpireIndustryUI;if(!ui||typeof document==='undefined')return;const view=document.getElementById('empire-v18-content');if(!view)return;
 const renderOriginal=ui.render.bind(ui),openOriginal=ui.open.bind(ui);let msg='';
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function decorate(){if(view.hidden||!['rivals','holdings'].includes(ui.active))return;
