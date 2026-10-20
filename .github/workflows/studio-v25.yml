@@ -1,0 +1,27 @@
+name: Studio Empire v25 Expansion and UI
+on:
+  push:
+    branches:
+      - feature/3d-engine-foundation
+    paths:
+      - 'game3d/studio-systems-v25.js'
+      - 'game3d/studio-console-v25.js'
+      - 'game3d/studio-console-v25.css'
+      - 'game3d/index.html'
+      - 'tests/studio-v25.test.cjs'
+      - '.github/workflows/studio-v25.yml'
+  workflow_dispatch:
+jobs:
+  expansion-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax
+        run: |
+          node --check game3d/studio-systems-v25.js
+          node --check game3d/studio-console-v25.js
+      - name: Test real saved-game franchise and financial integration
+        run: node tests/studio-v25.test.cjs

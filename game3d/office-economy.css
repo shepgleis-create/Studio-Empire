@@ -1,0 +1,14 @@
+/* Locked progression and real confirmed purchases. */
+.office-stage-switch.owned-office-track{align-items:center;gap:5px;max-width:100%;overflow:auto;flex-wrap:nowrap}
+.office-stage-switch .owned-step{flex:none;white-space:nowrap;background:#0b2434;color:#7e98ad;border:1px solid #31536c;padding:7px 8px;font-size:9px;font-weight:800;border-radius:6px}
+.office-stage-switch .owned-step.current{background:#164b42;border-color:#71d4a7;color:#e5ffed}.office-stage-switch .owned-step.owned{color:#a6e2c3}
+.office-stage-switch #office-buy-open{flex:none;border:1px solid #ffc2a5;background:#e77c64;color:white;font-weight:900}
+.office-purchase-cover{position:fixed;inset:0;background:#020b14e0;z-index:9999;display:grid;place-items:center;padding:13px}.office-purchase-cover[hidden]{display:none}
+.office-purchase-dialog{background:linear-gradient(150deg,#173346,#0a1b29);border:1px solid #54849c;color:#e7f2f8;border-radius:15px;width:min(500px,100%);max-height:92dvh;overflow:auto;box-shadow:0 25px 80px #000a}
+.office-purchase-dialog header,.office-purchase-dialog footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 19px;border-bottom:1px solid #33546a}
+.office-purchase-dialog header h2{font-size:19px;margin:0}.office-purchase-dialog header button{font-size:24px}
+.office-purchase-dialog button{border:1px solid #507086;background:#1d3a4e;color:#fff;border-radius:8px;padding:10px 12px;font-weight:800}
+#office-purchase-details{padding:17px 19px;color:#b7cad9;font-size:12px;line-height:1.6}.office-price{font-size:26px;color:#ffc39d;margin:0;font-weight:900}.office-price small{font-size:11px;font-weight:500}
+.office-req{display:grid;gap:6px}.office-req div{border-radius:7px;background:#112c3c;padding:9px;display:flex;gap:11px}.office-req .met b{color:#61dfab}.office-req .missing b{color:#f39882}.office-warning{color:#95b9ce;font-size:11px}
+.office-purchase-dialog footer{border-top:1px solid #33546a;border-bottom:0}.office-purchase-dialog #office-purchase-confirm{background:#e77c64;border-color:#ffc2a5}.office-purchase-dialog #office-purchase-confirm:disabled{background:#284352;color:#829da9;cursor:not-allowed}
+@media(max-width:740px){.office-stage-switch.owned-office-track{width:100%;justify-content:flex-start}.office-stage-switch .owned-step{font-size:8px;padding:6px}.office-purchase-dialog footer{flex-wrap:wrap}.office-purchase-dialog footer button{flex:1}}

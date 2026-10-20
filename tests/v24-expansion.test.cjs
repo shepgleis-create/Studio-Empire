@@ -1,0 +1,28 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const root=path.join(__dirname,'../game3d');
+class Store{constructor(){this.data=new Map()}getItem(k){return this.data.has(k)?this.data.get(k):null}setItem(k,v){this.data.set(k,String(v))}removeItem(k){this.data.delete(k)}}
+let store=new Store(),c={localStorage:store,Date,Math,JSON,Map,Set,console};c.window=c;c.globalThis=c;vm.createContext(c);
+for(const f of ['career-simulation.js','industry-v18.js','simulation-v21.js','daily-v23.js','empire-expansion-v24.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),c,{filename:f});
+const core=c.StudioEmpireCareer,day=c.StudioEmpireDaily23,ext=c.StudioEmpireExpansion24;
+let count=0;const yes=(v,label)=>{assert.ok(v,label);count++},eq=(v,a,label)=>{assert.equal(v,a,label);count++};
+const init=()=>{store=new Store();yes(core.createCareer({studio:'Test Studio',founder:'Founder',year:1975,difficulty:'standard'},store).ok);return store};
+let s=init();eq(ext.achievementRows(core.read(s)).length,12);
+yes(ext.forecast(core.read(s)).dailyBurn>0);eq(ext.claim('first',s).reason,'GOAL_NOT_COMPLETE');
+let base=core.read(s).cash;yes(ext.setPolicy('sustainable',s).ok);yes(day.advanceDay(s).ok);yes(core.read(s).cash<base-350,'daily costs include active policy');
+let employee=core.read(s).staff[0];yes(ext.raise(employee.id,10,s).ok);yes(core.read(s).staff[0].salary>employee.salary);
+yes(ext.leave(employee.id,s).ok);eq(ext.leave(employee.id,s).reason,'LEAVE_COOLDOWN');
+eq(ext.dismiss(employee.id,s).reason,'FOUNDER_PROTECTED');
+eq(ext.setPolicy('nonexistent',s).reason,'INVALID_POLICY');
+s=init();let t=core.read(s);t.cash=1000000;t.rep=75;s.setItem(core.KEY,JSON.stringify(t));
+yes(core.startProject({name:'Sea of Light',genre:'Adventure',topic:'Fantasy',platform:'kit',size:'indie'},s).ok);
+let offers=ext.offers(core.read(s));eq(offers.length,3);yes(offers[0].advance>0);
+let previous=core.read(s).cash;let chosen=ext.deal(offers[0].id,'accept',s);yes(chosen.ok);
+eq(core.read(s).cash,previous+chosen.contract.advance);
+eq(ext.offers(core.read(s)).length,0);
+const gameReady=core.read(s);gameReady.project.ready=true;gameReady.project.progress=gameReady.project.weeks;s.setItem(core.KEY,JSON.stringify(gameReady));
+yes(core.releaseProject(s).ok);let after=core.read(s);eq(after.publisherDeals[0].status,'delivered');yes(after.games[0].royalty<1);
+let goal=ext.achievementRows(after).find(x=>x.id==='first');yes(goal.earned);
+let paid=ext.claim('first',s);yes(paid.ok);eq(paid.reward,2500);eq(ext.claim('first',s).reason,'ALREADY_CLAIMED');
+yes(day.advanceDay(s).ok);
+eq(ext.deal('missing','accept',s).reason,'OFFER_UNAVAILABLE');
+console.log('v24 repository unit assertions passed:',count);

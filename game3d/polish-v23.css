@@ -1,0 +1,30 @@
+/* v0.23: more cohesive, legible mobile management surfaces and studio soundtrack. */
+#se23-music{min-width:60px!important;min-height:34px!important;padding:7px 10px!important;background:#e1f0f4!important;border:1px solid #aecdd7!important;border-radius:9px!important;color:#1b536a!important;font-size:11px!important;font-weight:800!important;white-space:nowrap!important}
+#se23-music.is-on{background:#d6efe6!important;color:#135d49!important;border-color:#6db69d!important}
+body[data-studio19-theme="daybreak"]{--s19-bg:#edf4f6;--s19-surface:#fff;--s19-raised:#e7f1f4;--s19-muted:#4f6b7d;--s19-line:#c1d4dd;--s19-ink:#1d3b4b}
+body[data-studio19-theme="daybreak"] #career-hub .career-shell{background:#edf4f6!important;border:1px solid #bbd2db!important;box-shadow:0 22px 60px #0f364a50!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-head,body[data-studio19-theme="daybreak"] #career-hub .career-metrics,body[data-studio19-theme="daybreak"] #career-hub #se20-navigation,body[data-studio19-theme="daybreak"] #career-hub .career-footer{background:#f9fcfd!important;border-color:#d4e2e8!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-head h2,body[data-studio19-theme="daybreak"] #career-hub .career-metric b,body[data-studio19-theme="daybreak"] #career-hub .career-card header strong{color:#1e3e50!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-metric{background:#f4f9fb!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-body,body[data-studio19-theme="daybreak"] #empire-v18-content,body[data-studio19-theme="daybreak"] #se22-production{background:#edf4f6!important;color:#1d3949!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-card,body[data-studio19-theme="daybreak"] #career-hub .empire18-card,body[data-studio19-theme="daybreak"] #career-hub .empire18-company,body[data-studio19-theme="daybreak"] #career-hub .se22-card{background:#fff!important;color:#294759!important;border:1px solid #c9dae3!important;box-shadow:0 3px 12px #203e4a0b!important;border-radius:13px!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-card p,body[data-studio19-theme="daybreak"] #career-hub .empire18-card p,body[data-studio19-theme="daybreak"] #career-hub .career-list span{color:#496b7d!important}
+body[data-studio19-theme="daybreak"] #career-hub .career-info{background:#e7f1f4!important;color:#31596e!important;border-color:#c0d6df!important}
+#se20-navigation button{transition:background-color .16s,color .16s,transform .16s!important}
+#se20-navigation button:active,.mobile-nav button:active{transform:scale(.97)}
+.se23-relations{padding:17px;margin:12px 0 18px;border-radius:14px;background:#ebf5f8;border:1px solid #bfd5df;color:#24475b}
+.se23-relations header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.se23-relations header small{letter-spacing:.13em;font-size:10px;color:#327d93;font-weight:850}
+.se23-relations h3{margin:5px 0;font-size:19px;letter-spacing:-.03em;color:#1b4358}
+.se23-relations header p{margin:0;font-size:12px;color:#547183}
+.se23-relations label{display:grid;gap:5px;font-size:12px;font-weight:750}
+.se23-relations select{width:100%;border:1px solid #b5cdd8;background:#fff;color:#1a4258;min-height:42px;padding:9px;border-radius:9px}
+.se23-actions{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.se23-actions button{border:0;background:#24758b;border-radius:9px;padding:11px 13px;min-height:41px;color:#fff;font-weight:760;cursor:pointer}
+.se23-actions button:disabled{opacity:.42}.se23-relations p{font-size:12px}
+.se23-contract{display:flex;justify-content:space-between;border-top:1px solid #c9dbe4;padding:9px 0;gap:10px;font-size:12px}
+body:not([data-studio19-theme="daybreak"]) .se23-relations{background:#26323c;border-color:#4f6572;color:#edf6f8}
+body:not([data-studio19-theme="daybreak"]) .se23-relations h3{color:#edf6f8}
+body:not([data-studio19-theme="daybreak"]) .se23-relations header p{color:#b3cbd5}
+@media(max-width:740px){#se21-timebar{gap:5px!important;padding:7px!important}#se21-timebar .se21-speed-controls{flex-wrap:nowrap!important;gap:3px!important}#se23-music{min-width:51px!important;padding:5px!important;font-size:10px!important}.se23-relations{padding:12px}.se23-actions{display:grid;grid-template-columns:1fr 1fr}.se23-actions button{font-size:11px;padding:9px 5px}}
+@media(prefers-reduced-motion:reduce){#se20-navigation button{transition:none!important}}

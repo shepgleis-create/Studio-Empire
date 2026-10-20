@@ -1,0 +1,34 @@
+name: Studio Empire v24 Expansion Regression
+on:
+  push:
+    branches: [feature/3d-engine-foundation]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  publishing-workforce-goals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate expansion JavaScript
+        run: |
+          node --check game3d/empire-expansion-v24.js
+          node --check game3d/empire-expansion-ui-v24.js
+          node --check game3d/pricing-v24.js
+          node --check game3d/daily-v23.js
+          node --check game3d/navigation-v20.js
+      - name: Run integrated career economy regression
+        run: |
+          node tests/v24-expansion.test.cjs
+          node tests/v24-pricing.test.cjs
+      - name: Verify gameplay entrypoint and menu links
+        run: |
+          grep -q 'empire-expansion-v24.js' game3d/index.html
+          grep -q 'empire-expansion-ui-v24.js' game3d/index.html
+          grep -q 'empire-expansion-v24.css' game3d/index.html
+          grep -q 'pricing-v24.js' game3d/index.html
+          grep -q "publishers','Publishers" game3d/navigation-v20.js

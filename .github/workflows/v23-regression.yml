@@ -1,0 +1,38 @@
+name: Studio Empire Daily Simulation and Rival Contracts
+on:
+  push:
+    branches: [feature/3d-engine-foundation]
+  pull_request:
+    paths:
+      - 'game3d/**'
+      - 'tests/daily-v23.test.cjs'
+      - '.github/workflows/v23-regression.yml'
+jobs:
+  daily-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate 3D career browser test syntax
+        run: python3 -m py_compile tests/3d-career-browser.py
+      - name: Validate daily engine, rival contracts and opt-in music syntax
+        run: |
+          node --check game3d/daily-v23.js
+          node --check game3d/rivals-v23.js
+          node --check game3d/music-v23.js
+          node --check game3d/experience-v21.js
+      - name: Execute daily and rival integration tests
+        run: node tests/daily-v23.test.cjs
+      - name: Confirm engine integration order
+        run: |
+          node - <<'NODE'
+          const fs=require('fs'),assert=require('assert');
+          const html=fs.readFileSync('game3d/index.html','utf8');
+          for(const p of ['daily-v23.js','rivals-v23.js','music-v23.js','polish-v23.css'])assert(html.includes(p),p+' missing');
+          assert(html.indexOf('daily-v23.js')<html.indexOf('experience-v21.js'),'daily clock must load before toolbar');
+          assert(html.indexOf('experience-v21.js')<html.indexOf('music-v23.js'),'music toolbar must load after clock');
+          console.log('Script ordering verified');
+          NODE
