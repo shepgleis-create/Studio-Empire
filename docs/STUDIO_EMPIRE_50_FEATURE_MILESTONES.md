@@ -12,7 +12,7 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [x] 08. Development-priority budget allocation inside projects (180-point design/technology/presentation budget)
 - [ ] 09. Risk of scope creep and delays
 - [x] 10. Testing and bug-fixing allocations (QA staff specialization and quality policy affect defects)
-- [ ] 11. Publisher contract negotiations (partial: fixed-term paid rival publishing deals; negotiable terms not implemented)
+- [x] 11. Publisher contract negotiations (new: three rival offers per active title; accept, one deterministic counteroffer, decline, financed advances, permanent royalties, deadlines and late fees. CI pending)
 - [ ] 12. Platform exclusivity contracts
 - [ ] 13. Game price changes over its lifecycle
 - [ ] 14. Sequels and franchise planning
@@ -33,8 +33,8 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [ ] 29. Inter-studio engine licensing contracts (partial: paid rival research partnerships grant RP; engine licenses not implemented)
 - [x] 30. Employee positions and specialties (saved roles influence project progression and bug rate)
 - [ ] 31. Skill growth through real project work
-- [ ] 32. Employee promotions and salary negotiations
-- [ ] 33. Burnout, time off and morale
+- [ ] 32. Employee promotions and salary negotiations (partial: saved 5%/10% raises adjust salary and morale; promotions remain)
+- [x] 33. Burnout, time off and morale (new: paid leave with cooldown, four staff policies, morale/energy and daily cost consequences. CI pending)
 - [ ] 34. Hiring market supply and competition (partial: recruit rivals' staff with reputation/cash/capacity limits; wider hiring market unfinished)
 - [ ] 35. Department-specific workstations
 - [ ] 36. Office renovation and furniture placement
@@ -46,11 +46,11 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [ ] 42. Responsive mobile management navigation
 - [ ] 43. Interactive department and employee views
 - [ ] 44. Sound effects and ambient audio controls (partial: opt-in synthesized music toggle beside speed; full effects/ambient mixer unfinished)
-- [ ] 45. Financial monthly reports and forecasting
+- [ ] 45. Financial monthly reports and forecasting (partial: saved-career daily cash runway, payroll, expenses and estimated sales; detailed monthly comparisons remain)
 - [ ] 46. Loans, interest, repayments and financing
 - [ ] 47. Dynamic research dependency map
 - [ ] 48. Difficulty rebalancing by decade
-- [ ] 49. Career milestones and achievable goals
+- [x] 49. Career milestones and achievable goals (12 conditions, saved one-time cash and reputation reward claims. CI pending)
 - [ ] 50. Reliable export/import, migration and backup recovery
 
 ## v0.21 evidence
@@ -76,3 +76,13 @@ No static image presented as gameplay. No savings overwritten by automated time;
 ## v0.23 delivered vs. remaining
 
 Implemented daily date/time, sound toggle, research partnerships, paid publishing contracts, rival recruitment, subsidiary funding, and revised Daybreak management styling. See docs/V023_DEVELOPMENT_REPORT.md. Partial features remain unchecked and are not counted as completed milestones. The full concept-level 3D asset library and every-tab visual rebuild remain open.
+
+## v0.24 — interconnected feature expansion (code committed; CI pending)
+
+- Publisher marketplace for in-development games with three competing offers from real saved rival companies; upfront financing, marketing hype, negotiated counteroffers, contract cancellation, deadlines, late penalties, and permanent game royalty shares.
+- Workforce controls: four daily studio operating policies, saved permanent salary raises, paid time off with cooldown, and paid severance when dismissing non-founder staff. Employee morale, energy, daily cash, and development progress respond to these choices.
+- Twelve saved career achievements with progress, one-time claimable cash and reputation rewards, and duplicate-claim protection.
+- Strategy forecast: daily operating cost, estimated retained daily game sales, net cash, runway, and active deals from real career data.
+- User interfaces under Games → Publishers, Team → Culture, Overview → Milestones. Existing 3D branch, main menu, mobile navigation and save key preserved.
+- Local pre-integration prototype: 142 assertions passed. Exact committed implementation: new GitHub Actions v24-expansion test added; must check its completion before claiming regression pass. Existing UI/browser tests and physical iPhone Safari: not independently verified for v0.24.
+- Premium concept art: still not achieved; no artwork was generated or counted as gameplay in this batch.
