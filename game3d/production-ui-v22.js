@@ -33,6 +33,6 @@ view.addEventListener("click",event=>{const b=event.target.closest("[data-produc
  let r;if(action==="strategy")r=api.setStrategy(id);if(action==="focus")r=api.changeFocus(api.FOCUS[id]);note=r?.ok?"Project settings saved.":"Could not change settings: "+(r?.reason||"UNKNOWN");render();});
 view.addEventListener("change",event=>{const el=event.target.closest("[data-production-staff]");if(!el)return;const r=api.specialize(el.dataset.productionStaff,el.value);note=r.ok?"Assigned "+r.employee+" to "+api.ROLES[r.role]+".":"Assignment failed: "+r.reason;render();});
 view.addEventListener("submit",event=>{if(event.target.id!=="se22-target")return;event.preventDefault();const weeks=Number(new FormData(event.target).get("weeks")),r=api.setDeadline(weeks);note=r.ok?"Release target set for week "+r.targetWeek+".":"Target failed: "+r.reason;render();});
-setInterval(()=>{if(view.hidden||document.hidden)return;const s=core.read(),version=(s?._studio3dRevision||0)+":"+(s?.weekNumber||0);if(version!==lastVersion)render();},1400);
+setInterval(()=>{if(view.hidden||document.hidden||view.contains(document.activeElement))return;const s=core.read(),version=(s?._studio3dRevision||0)+":"+(s?.weekNumber||0);if(version!==lastVersion)render();},1400);
 window.StudioEmpireProductionUI22={open,close,render,debug(){return{active:!view.hidden,hasProject:!!api.report(core.read())?.active}}};
 })();
