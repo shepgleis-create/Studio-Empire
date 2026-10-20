@@ -34,17 +34,17 @@ async def main():
       await page.locator('input[name="name"]').fill('First Star')
       await page.locator('#career-project-form button[type="submit"]').click()
       assert await page.evaluate("window.StudioEmpireCareer.read().project?.name==='First Star'")
-      # Test time flow through clickable in-game control, not unit fixture.
-      for n in range(28):
-        if await page.evaluate('window.StudioEmpireCareer.read().project?.ready'):
-          break
-        await page.locator('[data-do="advance"]').first.click()
-      assert await page.evaluate('window.StudioEmpireCareer.read().project?.ready'), 'Project was not completed'
-      await page.locator('[data-do="release"]').first.click()
-      await page.wait_for_function("document.body.dataset.engine === 'running' && !!window.StudioEmpireCareerUI && window.StudioEmpireCareer.read()?.games?.length===1",timeout=70000)
-      # Normal relaunch opens the actual main menu; continue the saved career.
-      await page.locator('#studio19-menu').wait_for(state='visible',timeout=25000)
-      await page.locator('[data-menu-action="continue"]').click()
+      # Verify the actual continuous game clock, not removed click-to-advance controls.
+      await page.locator('.mobile-nav [data-se20-dest="office"]' if width<600 else '.se20-side-link[data-se20-dest="office"]').click()
+      before_day=await page.evaluate('window.StudioEmpireCareer.read().dailySerial || 0')
+      await page.locator('#se21-timebar [data-se21-speed="8"]').click()
+      await page.wait_for_function('(before) => (window.StudioEmpireCareer.read()?.dailySerial||0)>before+2',arg=before_day,timeout=25000)
+      await page.wait_for_function("window.StudioEmpireCareer.read()?.games?.some(g=>g.name==='First Star')",timeout=70000)
+      await page.locator('#se21-toggle').click()
+      frozen=await page.evaluate('window.StudioEmpireCareer.read().dailySerial')
+      await page.wait_for_timeout(550)
+      assert await page.evaluate('window.StudioEmpireCareer.read().dailySerial')==frozen,'Paused clock progressed'
+      # No page reload or click required to publish with default auto-publish enabled.
       await page.locator(launch).click()
       await page.locator('[data-se20-group="overview"]').click()
       await page.screenshot(path=str(OUT/f'{width}-career-management.png'))
