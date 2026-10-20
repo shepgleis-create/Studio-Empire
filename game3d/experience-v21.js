@@ -22,7 +22,7 @@ showNotice.addEventListener('change',()=>{clock.setNotifications(showNotice.chec
 function alertMessage(t){lastNote=t;if(!clock.status().notifications)return;notices.textContent=t;notices.classList.add('show');clearTimeout(alertMessage.timer);alertMessage.timer=setTimeout(()=>notices.classList.remove('show'),3600);}
 function refreshHeader(){const s=core.read();if(!s)return;
 for(const [id,value] of [['year',s.year],['cash',money(s.cash)],['crew',s.staff?.length||0]]){const node=document.getElementById(id);if(node)node.textContent=value;}
-const date=$('#se21-date');if(date)date.textContent=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][(s.month||1)-1]+' '+s.year+' · WEEK '+(s.week||1);
+const date=$('#se21-date');if(date){const d=new Date(Date.UTC(s.year,(s.month||1)-1,s.day||((s.week||1)-1)*7+1));date.textContent=d.toLocaleDateString('en-US',{timeZone:'UTC',month:'short',day:'numeric',year:'numeric'});}
 const project=$('#v17-project');if(project)project.textContent=s.project?.name||'No active game';
 const pState=$('#v17-project-state');if(pState)pState.textContent=s.project?(s.project.ready?'Ready to publish':Math.round(100*(s.project.progress||0)/Math.max(1,s.project.weeks))+'% complete'):'Start developing';
 const tile=$('.concept-snapshot [data-open="finances"] b');if(tile)tile.textContent=money(s.cash);
