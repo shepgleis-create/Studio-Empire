@@ -1,0 +1,31 @@
+/* Studio Empire v24: visually consistent management sheets without additional modals */
+#se24-content{overflow-y:auto;overscroll-behavior:contain;flex:1;min-height:0;padding:22px;color:var(--s19-ink,#f5f3ed);background:var(--s19-bg,#161c23)}
+#se24-content[hidden]{display:none!important}#se24-content *{box-sizing:border-box}
+.se24-head{display:flex;justify-content:space-between;align-items:end;gap:14px;border-bottom:1px solid var(--s19-line,#ffffff22);padding-bottom:16px;margin-bottom:18px}
+.se24-head small,.se24-head>strong{font-size:10px;letter-spacing:.08em;color:var(--s19-muted,#b6b7b7)}
+.se24-head h2{font-size:clamp(20px,3vw,28px);letter-spacing:-.035em;margin:7px 0 0}
+.se24-card{min-width:0;border:1px solid var(--s19-line,#ffffff22);border-radius:12px;padding:17px;margin-bottom:13px;background:var(--s19-surface,#202731);box-shadow:0 5px 19px #00000016}
+.se24-card>header{display:flex;justify-content:space-between;gap:12px;align-items:center;padding-bottom:13px;margin-bottom:12px;border-bottom:1px solid var(--s19-line,#ffffff20)}
+.se24-card h3{font-size:14px;margin:0}.se24-card header small{color:var(--s19-muted,#b4bdc7);font-size:10px}
+.se24-card p,.se24-summary p{font-size:12px;color:var(--s19-muted,#b4bdc7);line-height:1.55}
+.se24-summary{margin-bottom:15px}.se24-summary strong{font-size:17px}
+.se24-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px}
+.se24-row{padding:9px 0;border-bottom:1px solid var(--s19-line,#ffffff16);display:flex;justify-content:space-between;gap:12px;font-size:12px}
+.se24-row span{color:var(--s19-muted,#b4bdc7)}.se24-row b{text-align:right;font-variant-numeric:tabular-nums}
+.se24-buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
+.se24-action{font:inherit;font-size:11px;font-weight:750;border:1px solid var(--s19-line,#ffffff24);border-radius:8px;padding:10px;min-height:41px;cursor:pointer;background:var(--s19-accent,#dabd93);color:var(--s19-bg,#171c22);flex:1;transition:filter .16s,transform .16s}
+.se24-action:hover:not(:disabled){filter:brightness(1.1)}.se24-action:active:not(:disabled){transform:scale(.985)}.se24-action:disabled{opacity:.4;cursor:default}
+.se24-status{border-radius:9px;border:1px solid var(--s19-line);background:var(--s19-raised);padding:12px;margin-bottom:12px;font-size:12px}
+.se24-policy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:9px}
+.se24-policy{display:flex;flex-direction:column;gap:7px;text-align:left;padding:13px;color:var(--s19-ink,#fff);border:1px solid var(--s19-line,#ffffff25);background:var(--s19-raised,#2b333d);border-radius:10px;cursor:pointer;min-height:118px}
+.se24-policy.selected{border:2px solid var(--s19-accent,#dabd93)}.se24-policy small{color:var(--s19-muted,#b4bdc7);font-size:10px;line-height:1.4}
+.se24-employee{border:1px solid var(--s19-line,#ffffff25);padding:14px;border-radius:10px;margin:10px 0}
+.se24-employee>strong{font-size:13px}.se24-employee>small{display:block;color:var(--s19-muted);font-size:10px;margin:6px 0}
+.se24-forecast{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+.se24-forecast>div{padding:12px;border-radius:9px;background:var(--s19-raised,#26303a)}.se24-forecast small{font-size:10px;color:var(--s19-muted,#b4bdc7);display:block;margin-bottom:9px}.se24-forecast b{font-variant-numeric:tabular-nums;font-size:16px}
+.se24-goal{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:14px;align-items:center;border-bottom:1px solid var(--s19-line,#ffffff22);padding:12px 0}
+.se24-goal strong{font-size:12px}.se24-goal small{display:block;color:var(--s19-muted);font-size:10px;margin:5px 0}
+.se24-goal progress{width:100%;height:7px;accent-color:var(--s19-accent,#dabd93)}.se24-goal .se24-action{max-width:150px}
+#se24-content button:focus-visible{outline:2px solid var(--s19-accent,#dabd93);outline-offset:2px}
+@media(max-width:740px){#se24-content{padding:14px 14px calc(30px + env(safe-area-inset-bottom,0px))}.se24-card{padding:13px}.se24-goal{grid-template-columns:minmax(0,1fr) 115px;gap:8px}.se24-forecast b{font-size:14px}.se24-head>strong{max-width:35%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+@media(prefers-reduced-motion:reduce){.se24-action{transition:none}}
