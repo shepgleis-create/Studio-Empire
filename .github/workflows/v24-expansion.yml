@@ -2,6 +2,8 @@ name: Studio Empire v24 Expansion Regression
 on:
   push:
     branches: [feature/3d-engine-foundation]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 jobs:
   publishing-workforce-goals:
