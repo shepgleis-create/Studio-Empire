@@ -50,8 +50,6 @@ el.innerHTML='<header><div><small>INDUSTRY RELATIONSHIPS</small><h3>'+(own?'Mana
 view.prepend(el);}
 ui.render=function(){renderOriginal();decorate()};ui.open=function(tab){const r=openOriginal(tab);decorate();return r};
 view.addEventListener('click',e=>{const b=e.target.closest('[data-se23-action]');if(!b)return;const id=view.querySelector('#se23-company')?.value,type=b.dataset.se23Action,c=career.read()?.companies?.find(c=>String(c.id)===id);if(!c)return;
-const quotedCost=type==='partner'?Math.max(2500,Math.round(n(c.value)*.025)):type==='publish'?Math.max(4000,Math.round(n(c.value)*.04)):type==='recruit'?Math.max(3800,Math.round(n(c.staff,1)*350)):Math.max(5000,Math.round(n(c.value)*.045));if(!g.confirm('Pay 
-const r=contract(id,type);msg=r.ok?'Signed '+type+' with '+r.company+' · $'+r.cost.toLocaleString()+' spent.':'Action blocked: '+r.reason.replaceAll('_',' ').toLowerCase();ui.render();});
-})(typeof window!=='undefined'?window:globalThis);+quotedCost.toLocaleString()+' for '+type+' with '+c.name+'? The payment will be deducted from your career.'))return;
+const cost=type==='partner'?Math.max(2500,Math.round(n(c.value)*.025)):type==='publish'?Math.max(4000,Math.round(n(c.value)*.04)):type==='recruit'?Math.max(3800,Math.round(n(c.staff,1)*350)):Math.max(5000,Math.round(n(c.value)*.045));if(!g.confirm('Pay $'+cost.toLocaleString()+' to '+c.name+' for '+type+'? This will deduct company funds.'))return;
 const r=contract(id,type);msg=r.ok?'Signed '+type+' with '+r.company+' · $'+r.cost.toLocaleString()+' spent.':'Action blocked: '+r.reason.replaceAll('_',' ').toLowerCase();ui.render();});
 })(typeof window!=='undefined'?window:globalThis);
