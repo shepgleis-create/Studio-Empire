@@ -31,7 +31,7 @@ if(stage!==p.stage){p.stage=stage;p.milestones=Array.isArray(p.milestones)?p.mil
 if(ratio>=1){p.ready=true;p.progress=v(p.weeks,12);}
 s.staff.forEach(e=>e.morale=clamp(v(e.morale,80)+m[2]/7,20,100));
 }
-let revenue=0;for(const game of s.games){const age=v(s.weekNumber)-v(game.releaseWeek,s.weekNumber);if(age<0||age>80)continue;const platform=career.PLATFORMS.find(p=>p.id===game.platform)||career.PLATFORMS[0];const copies=Math.floor(v(game.initialSales)*.60*Math.pow(.94,age)/7),earned=Math.round(copies*v(game.price,16)*v(game.royalty,1)*platform.royalty);
+let revenue=0;for(const game of s.games){const age=v(s.weekNumber)-v(game.releaseWeek,s.weekNumber);if(age<0||age>80)continue;const platform=career.PLATFORMS.find(p=>p.id===game.platform)||career.PLATFORMS[0];const demand=g.StudioEmpirePricing24?.demand(game,game.price)??1;const copies=Math.floor(v(game.initialSales)*.60*Math.pow(.94,age)/7*demand),earned=Math.round(copies*v(game.price,16)*v(game.royalty,1)*platform.royalty);
 game.sales=v(game.sales)+copies;game.totalRevenue=v(game.totalRevenue)+earned;revenue+=earned;}
 s.cash+=revenue;s.totalRevenue=v(s.totalRevenue)+revenue;s.yearlyProfit=v(s.yearlyProfit)+revenue;
 s.staff.forEach(e=>{e.energy=clamp(v(e.energy,80)-(s.project?.23:.06),35,100);e.morale=clamp(v(e.morale,80)+(s.cash>=0?.013:-.1),25,100)});
