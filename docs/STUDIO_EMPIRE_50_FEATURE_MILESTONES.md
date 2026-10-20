@@ -2,7 +2,7 @@
 
 This is the requested roadmap, not a claim that fifty systems were built in v0.21. Items marked checked represent code present in the v0.22 development branch. Passing CI is tracked separately; unchecked requirements must not be claimed complete. Each item must receive independent gameplay and regression verification before final signoff.
 
-- [x] 01. Continuous week simulation while the game is visible
+- [x] 01. Continuous day-by-day simulation while the game is visible (true daily costs, sales and production; seven-day rival settlement)
 - [x] 02. Adjustable game speed and pause/resume
 - [x] 03. Auto-publish finished games with opt-out
 - [x] 04. Genre and theme aware game-title generator
@@ -12,7 +12,7 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [x] 08. Development-priority budget allocation inside projects (180-point design/technology/presentation budget)
 - [ ] 09. Risk of scope creep and delays
 - [x] 10. Testing and bug-fixing allocations (QA staff specialization and quality policy affect defects)
-- [ ] 11. Publisher contract negotiations
+- [ ] 11. Publisher contract negotiations (partial: fixed-term paid rival publishing deals; negotiable terms not implemented)
 - [ ] 12. Platform exclusivity contracts
 - [ ] 13. Game price changes over its lifecycle
 - [ ] 14. Sequels and franchise planning
@@ -30,12 +30,12 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [ ] 26. Acquisition bid negotiations
 - [ ] 27. Subsidiary integration and restructuring
 - [ ] 28. Buy and sell studio intellectual property
-- [ ] 29. Inter-studio engine licensing contracts
+- [ ] 29. Inter-studio engine licensing contracts (partial: paid rival research partnerships grant RP; engine licenses not implemented)
 - [x] 30. Employee positions and specialties (saved roles influence project progression and bug rate)
 - [ ] 31. Skill growth through real project work
 - [ ] 32. Employee promotions and salary negotiations
 - [ ] 33. Burnout, time off and morale
-- [ ] 34. Hiring market supply and competition
+- [ ] 34. Hiring market supply and competition (partial: recruit rivals' staff with reputation/cash/capacity limits; wider hiring market unfinished)
 - [ ] 35. Department-specific workstations
 - [ ] 36. Office renovation and furniture placement
 - [ ] 37. Separate detailed assets for four office tiers
@@ -45,7 +45,7 @@ This is the requested roadmap, not a claim that fifty systems were built in v0.2
 - [x] 41. Daybreak bright palette and improved 3D scene lighting
 - [ ] 42. Responsive mobile management navigation
 - [ ] 43. Interactive department and employee views
-- [ ] 44. Sound effects and ambient audio controls
+- [ ] 44. Sound effects and ambient audio controls (partial: opt-in synthesized music toggle beside speed; full effects/ambient mixer unfinished)
 - [ ] 45. Financial monthly reports and forecasting
 - [ ] 46. Loans, interest, repayments and financing
 - [ ] 47. Dynamic research dependency map
@@ -72,3 +72,7 @@ No static image presented as gameplay. No savings overwritten by automated time;
 - Automated tests: `tests/production-v22.test.mjs` and real WebGL browser test `tests/production-v22-browser.py` (verify actual GitHub Actions results before marking browser verification complete).
 - Still incomplete: scope creep, fully adjustable feature-level budgets, studio HR leave/raises, multiple simultaneous projects, professional 3D character models, premium building interiors, physical iPhone Safari test, offline simulation recovery.
 - Previous milestones 01–04 and 41 remain checked; this batch adds 06, 08, 10, and 30. Other items are not counted as finished.
+
+## v0.23 delivered vs. remaining
+
+Implemented daily date/time, sound toggle, research partnerships, paid publishing contracts, rival recruitment, subsidiary funding, and revised Daybreak management styling. See docs/V023_DEVELOPMENT_REPORT.md. Partial features remain unchecked and are not counted as completed milestones. The full concept-level 3D asset library and every-tab visual rebuild remain open.
