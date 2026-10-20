@@ -35,7 +35,8 @@ async def main():
       await page.locator('#career-project-form button[type="submit"]').click()
       assert await page.evaluate("window.StudioEmpireCareer.read().project?.name==='First Star'")
       # Verify the actual continuous game clock, not removed click-to-advance controls.
-      await page.locator('#career-close').click()\n      assert not await page.locator('#career-hub').is_visible(), 'Management sheet did not close'
+      await page.locator('#career-close').click()
+      assert not await page.locator('#career-hub').is_visible(), 'Management sheet did not close'
       before_day=await page.evaluate('window.StudioEmpireCareer.read().dailySerial || 0')
       await page.locator('#se21-timebar [data-se21-speed="8"]').click()
       await page.wait_for_function('(before) => (window.StudioEmpireCareer.read()?.dailySerial||0)>before+2',arg=before_day,timeout=25000)
