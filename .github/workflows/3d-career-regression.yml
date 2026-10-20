@@ -23,8 +23,12 @@ jobs:
           node --check game3d/save-import-v17.js
           node --check game3d/materials-v17.js
           node --check game3d/office-progression.js
+          node --check game3d/studio-systems-v25.js
+          node --check game3d/studio-console-v25.js
       - name: Verify career simulation and safe saves
         run: node --test tests/career.test.mjs tests/validate-shell.mjs && node tests/production-v22.test.mjs
+      - name: Verify v25 franchise, lending and investments with real career data
+        run: node tests/studio-v25.test.cjs
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
